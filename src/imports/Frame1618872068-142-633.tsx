@@ -2139,30 +2139,8 @@ function FooterStatus1() {
 }
 
 function LiveOrderPrice() {
-  const [price, setPrice] = useState<string>("$0.051");
-
-  useEffect(() => {
-    const fetchPrice = async () => {
-      try {
-        const res = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=orderly-network&vs_currencies=usd"
-        );
-        const data = await res.json();
-        const usd = data?.["orderly-network"]?.usd;
-        if (usd !== undefined) {
-          setPrice("$" + usd.toFixed(3));
-        }
-      } catch {
-        setPrice("$—");
-      }
-    };
-    fetchPrice();
-    const interval = setInterval(fetchPrice, 60_000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <p className="leading-[0.753] text-[20px]" data-name="order-price">{price}</p>
+    <p className="leading-[0.753] text-[20px]" data-name="order-price">$0.051</p>
   );
 }
 

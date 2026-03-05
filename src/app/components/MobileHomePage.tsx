@@ -458,28 +458,6 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
   const [whyIdx,   setWhyIdx]   = useState(0);
   const [buildIdx, setBuildIdx] = useState(0);
 
-  /* ── live ORDER token price (same CoinGecko endpoint as desktop) ── */
-  useEffect(() => {
-    let cancelled = false;
-    async function fetchPrice() {
-      try {
-        const res = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=orderly-network&vs_currencies=usd",
-          { signal: AbortSignal.timeout(5000) }
-        );
-        if (!res.ok || cancelled) return;
-        const data = await res.json();
-        const price: number | undefined = data?.["orderly-network"]?.usd;
-        if (price == null || cancelled) return;
-        const formatted = price < 1 ? `$${price.toFixed(4)}` : `$${price.toFixed(2)}`;
-        const priceEl = wrapperRef.current?.querySelector('[data-name="order-price"]') as HTMLElement | null;
-        if (priceEl) priceEl.textContent = formatted;
-      } catch { /* keep fallback */ }
-    }
-    fetchPrice();
-    return () => { cancelled = true; };
-  }, []);
-
   /* ── enable horizontal scroll on carousels ── */
   useEffect(() => {
     const wrap = wrapperRef.current;

@@ -1424,8 +1424,6 @@ function FooterStatus({ onBuyOrder }: { onBuyOrder?: () => void }) {
       }
     };
     fetchPrice();
-    const interval = setInterval(fetchPrice, 60_000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
