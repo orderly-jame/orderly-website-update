@@ -14,6 +14,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
+import { useNewsletterSubscribe } from "@/app/hooks/useNewsletterSubscribe";
 
 // ── Figma mobile frame ───────────────────────────────────────────────────────
 import Frame40 from "../../imports/Frame1618872068-142-633";
@@ -345,7 +346,8 @@ function FooterSheet({
 /** Mobile-only newsletter sign-up sheet (no desktop equivalent) */
 function SignUpModal({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState("");
-  const [sent,  setSent]  = useState(false);
+  const { status, subscribe } = useNewsletterSubscribe();
+  const sent = status === "success";
   const fontMedium = { fontFamily: "'atyp-bl-variable', 'atyp-bl', sans-serif", fontVariationSettings: "'ital' 0, 'opsz' 72, 'wght' 500", fontFeatureSettings: "'ss02','ss03','ss05','ss06'" };
 
   return (
@@ -397,7 +399,7 @@ function SignUpModal({ onClose }: { onClose: () => void }) {
               autoFocus
             />
             <button
-              onClick={() => { if (email.includes("@")) setSent(true); }}
+              onClick={() => { if (email.includes("@")) subscribe(email); }}
               className="w-full rounded-[24px] py-[14px] border-0 cursor-pointer hover:opacity-90 transition-opacity"
               style={{ background: "black" }}
             >
