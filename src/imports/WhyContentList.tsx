@@ -1,9 +1,9 @@
-const imgWhyIconContainer3 = "/images/Deep-Shared-Liquidity.png";
-const imgWhyIconContainer12 = "/images/Omnichain-by-Default.avif";
-const imgWhyIconContainer22 = "/images/you-own-the-economics.avif";
+const imgWhyIconContainer3 = "/images/deep-shared-liquidity.png";
+const imgWhyIconContainer12 = "/images/omnichain-by-default.png";
+const imgWhyIconContainer22 = "/images/you-own-the-economics.png";
 const imgWhyIconContainer31 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
-const imgWhyIconContainer42 = "/images/self-custody.avif";
-const imgWhyIconContainer52 = "/images/battle-tested.avif";
+const imgWhyIconContainer42 = "/images/self-custody.png";
+const imgWhyIconContainer52 = "/images/battle-tested.png";
 
 function WhyIconContainer() {
   return (

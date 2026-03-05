@@ -77,7 +77,7 @@ export function PartnershipModal({ onClose }: { onClose: () => void }) {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.94, y: 12 }}
         transition={{ duration: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
-        className="relative bg-[#14151a] rounded-[24px] w-full max-w-[560px] p-[40px] shadow-2xl"
+        className="relative bg-[#14151a] rounded-[24px] w-full max-w-[560px] max-h-[calc(100dvh-32px)] overflow-y-auto p-[40px] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close */}

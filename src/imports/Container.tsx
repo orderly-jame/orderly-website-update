@@ -1,4 +1,4 @@
-const imgFrame16188720501 = "/images/ship-fast.avif";
+const imgFrame16188720501 = "/images/ship-fast.png";
 
 function Frame() {
   return (

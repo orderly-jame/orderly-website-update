@@ -5,12 +5,12 @@ import MacbookVideo from "@/app/components/MacbookVideo";
 import CheckIcon from "@mui/icons-material/Check";
 import svgPaths from "./svg-4hybjba00c";
 const imgMacBook11 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
-const imgWhyIconContainer3 = "/images/Deep-Shared-Liquidity.png";
-const imgWhyIconContainer12 = "/images/Omnichain-by-Default.avif";
-const imgWhyIconContainer22 = "/images/you-own-the-economics.avif";
+const imgWhyIconContainer3 = "/images/deep-shared-liquidity.png";
+const imgWhyIconContainer12 = "/images/omnichain-by-default.png";
+const imgWhyIconContainer22 = "/images/you-own-the-economics.png";
 const imgWhyIconContainer31 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
-const imgWhyIconContainer42 = "/images/self-custody.avif";
-const imgWhyIconContainer52 = "/images/battle-tested.avif";
+const imgWhyIconContainer42 = "/images/self-custody.png";
+const imgWhyIconContainer52 = "/images/battle-tested.png";
 
 function Brandmark() {
   return (
@@ -39,9 +39,9 @@ function Menu({ onClick }: { onClick?: () => void }) {
       onClick={(e) => { e.stopPropagation(); onClick?.(); }}
     >
       <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 32 32">
-        <rect x="4" y="9"  width="24" height="2.5" rx="1.25" fill="white"/>
-        <rect x="4" y="15" width="24" height="2.5" rx="1.25" fill="white"/>
-        <rect x="4" y="21" width="24" height="2.5" rx="1.25" fill="white"/>
+        <rect x="4" y="9" width="24" height="2.5" rx="1.25" fill="white" />
+        <rect x="4" y="15" width="24" height="2.5" rx="1.25" fill="white" />
+        <rect x="4" y="21" width="24" height="2.5" rx="1.25" fill="white" />
       </svg>
     </div>
   );
@@ -1163,24 +1163,24 @@ const QS_CLIENTS = [
     command: "npx @orderly.network/mcp-server init",
     subtext: "Supported clients: claude, cursor, vscode, codex, opencode",
   },
-  { id: "claude",   label: "Claude",   mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client claude"   },
-  { id: "cursor",   label: "Cursor",   mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client cursor"   },
-  { id: "vscode",   label: "VScode",   mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client vscode"   },
-  { id: "codex",    label: "Codex",    mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client codex"    },
+  { id: "claude", label: "Claude", mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client claude" },
+  { id: "cursor", label: "Cursor", mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client cursor" },
+  { id: "vscode", label: "VScode", mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client vscode" },
+  { id: "codex", label: "Codex", mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client codex" },
   { id: "opencode", label: "Opencode", mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client opencode" },
 ];
 
 function QuickStartSection() {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [copied,    setCopied]    = useState(false);
+  const [copied, setCopied] = useState(false);
   const active = QS_CLIENTS[activeIdx];
-  const total  = QS_CLIENTS.length;
+  const total = QS_CLIENTS.length;
 
   function copyCmd(e: React.MouseEvent) {
     e.stopPropagation();
     const text = active.command;
     if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(text).catch(() => {});
+      navigator.clipboard.writeText(text).catch(() => { });
     } else {
       const el = document.createElement("textarea");
       el.value = text;
@@ -1321,7 +1321,7 @@ function QuickStartSection() {
               >
                 {copied ? (
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 13l4 4L19 7" stroke="#9c75ff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M5 13l4 4L19 7" stroke="#9c75ff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 ) : (
                   <div className="h-[24px] relative shrink-0 w-[23.594px]" data-name="content_copy">
@@ -2185,10 +2185,10 @@ function Frame7() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { label: "Orderly One",   href: "https://dex.orderly.network/" },
-    { label: "Orderly SDKs",  href: "https://orderly.network/docs/sdks/overview" },
+    { label: "Orderly One", href: "https://dex.orderly.network/" },
+    { label: "Orderly SDKs", href: "https://orderly.network/docs/sdks/overview" },
     { label: "Documentation", href: "https://orderly.network/docs/introduction/getting-started/what-is-orderly" },
-    { label: "GitHub",        href: "https://github.com/OrderlyNetwork" },
+    { label: "GitHub", href: "https://github.com/OrderlyNetwork" },
   ];
 
   return (
@@ -2273,12 +2273,12 @@ function Frame9() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { label: "Partners",     href: "https://orderly.network/partners/" },
-    { label: "Listings",     href: "https://orderly.network/listing/" },
+    { label: "Partners", href: "https://orderly.network/partners/" },
+    { label: "Listings", href: "https://orderly.network/listing/" },
     { label: "Case Studies", href: "https://dex.orderly.network/case-studies" },
-    { label: "Governance",   href: "https://snapshot.box/#/s:orderlygov.eth" },
-    { label: "Staking",      href: "https://app.orderly.network/staking" },
-    { label: "Blog",         href: "https://orderly.network/blog/" },
+    { label: "Governance", href: "https://snapshot.box/#/s:orderlygov.eth" },
+    { label: "Staking", href: "https://app.orderly.network/staking" },
+    { label: "Blog", href: "https://orderly.network/blog/" },
   ];
 
   return (
@@ -2358,12 +2358,12 @@ function Frame10() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { label: "Live DEXs",  href: "https://dex.orderly.network/board/" },
-    { label: "Dashboard",  href: "https://orderly-dashboard.orderly.network/" },
-    { label: "API",        href: "https://orderly.network/docs/build-on-omnichain/evm-api/introduction" },
-    { label: "Explorer",   href: "https://explorer.orderly.network/" },
-    { label: "Campaigns",  href: "https://app.orderly.network/campaigns" },
-    { label: "Vaults",     href: "http://app.orderly.network/vaults" },
+    { label: "Live DEXs", href: "https://dex.orderly.network/board/" },
+    { label: "Dashboard", href: "https://orderly-dashboard.orderly.network/" },
+    { label: "API", href: "https://orderly.network/docs/build-on-omnichain/evm-api/introduction" },
+    { label: "Explorer", href: "https://explorer.orderly.network/" },
+    { label: "Campaigns", href: "https://app.orderly.network/campaigns" },
+    { label: "Vaults", href: "http://app.orderly.network/vaults" },
   ];
 
   return (
@@ -2445,11 +2445,11 @@ function Frame11() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { label: "Team",      href: "https://orderly.network/team/" },
+    { label: "Team", href: "https://orderly.network/team/" },
     { label: "Analytics", href: "https://dune.com/orderly_network/orderly-dashboard" },
-    { label: "Careers",   href: "https://job-boards.greenhouse.io/orderly" },
+    { label: "Careers", href: "https://job-boards.greenhouse.io/orderly" },
     { label: "Brand Kit", href: "https://live.standards.site/orderly-brandguidelines" },
-    { label: "FAQ",       href: "/faq" },
+    { label: "FAQ", href: "/faq" },
   ];
 
   return (
