@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, memo } from "react";
+import MacbookVideo from "@/app/components/MacbookVideo";
 import CheckIcon from "@mui/icons-material/Check";
 import svgPaths from "./svg-4hybjba00c";
 const imgMacBook11 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
@@ -115,11 +116,7 @@ function Group9() {
   return (
     <div className="absolute contents left-[10.93px] top-[63.58px]">
       <BackgroundVector />
-      <div className="-translate-x-1/2 absolute h-[219.084px] left-[calc(50%+1.72px)] top-[111.84px] w-[294.328px]" data-name="MacBook垂直背面摄影 1 拷贝 1">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[200.56%] left-[-24.63%] max-w-none top-[-51.02%] w-[149.29%]" src={imgMacBook11} />
-        </div>
-      </div>
+      <MacbookVideo className="-translate-x-1/2 absolute h-[219.084px] left-[calc(50%+1.72px)] top-[111.84px] w-[294.328px]" />
     </div>
   );
 }
@@ -1207,6 +1204,18 @@ function QuickStartSection() {
     setActiveIdx(i);
   }
 
+  const isInteractive = active.mode === "interactive";
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLElement | null)[]>([]);
+
+  // Scroll so selected tab aligns to the left edge of the scroll container
+  useEffect(() => {
+    const el = tabRefs.current[activeIdx];
+    if (el && scrollRef.current) {
+      scrollRef.current.scrollTo({ left: el.offsetLeft, behavior: 'smooth' });
+    }
+  }, [activeIdx]);
+
   return (
     <div className="content-stretch flex flex-col gap-[32px] items-start relative shrink-0 w-full" data-name="Quick Start Section">
       <QuickStartTitleContainer />
@@ -1218,42 +1227,48 @@ function QuickStartSection() {
           <div className="flex flex-row items-center size-full">
             <div className="content-stretch flex gap-[8px] items-center p-[20px] relative size-full">
 
-              <div className="content-stretch flex flex-[1_0_0] gap-[20px] items-center min-h-px min-w-px overflow-hidden relative">
-                {active.mode === "interactive" ? (
-                  QS_CLIENTS.map((c, i) =>
-                    i === 0 ? (
-                      <div
-                        key={c.id}
-                        onClick={(e) => pickTab(e, i)}
-                        className="bg-[#6700ce] content-stretch flex h-[47.305px] items-center justify-center px-[17px] py-[8px] relative rounded-[8px] shrink-0 cursor-pointer"
-                      >
-                        <p className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">{c.label}</p>
-                      </div>
-                    ) : (
-                      <p
-                        key={c.id}
-                        onClick={(e) => pickTab(e, i)}
-                        className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap cursor-pointer"
-                        style={{ opacity: 0.65 }}
-                      >
-                        {c.label}
-                      </p>
-                    )
-                  )
-                ) : (
-                  <>
-                    <p
-                      onClick={(e) => pickTab(e, 0)}
-                      className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap cursor-pointer"
-                      style={{ opacity: 0.6 }}
+              {/* Fixed "One-Liner" label when a client is selected */}
+              {!isInteractive && (
+                <p
+                  onClick={(e) => pickTab(e, 0)}
+                  className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap cursor-pointer"
+                  style={{ opacity: 0.6 }}
+                >
+                  One-Liner
+                </p>
+              )}
+
+              {/* Scrollable tabs — all in natural order, selected one gets purple pill */}
+              <div
+                ref={scrollRef}
+                className="flex flex-[1_0_0] items-center gap-[20px] min-h-px min-w-px relative overflow-x-auto"
+                style={{ scrollbarWidth: 'none' }}
+              >
+                {QS_CLIENTS.map((c, i) => {
+                  // In client mode, skip the "Interactive" tab (shown as "One-Liner" label above)
+                  if (!isInteractive && i === 0) return null;
+                  const isActive = i === activeIdx;
+                  return isActive ? (
+                    <div
+                      key={c.id}
+                      ref={(el) => { tabRefs.current[i] = el; }}
+                      onClick={(e) => pickTab(e, i)}
+                      className="bg-[#6700ce] content-stretch flex h-[47.305px] items-center justify-center px-[17px] py-[8px] relative rounded-[8px] shrink-0 cursor-pointer"
                     >
-                      One-Liner
-                    </p>
-                    <div className="bg-[#6700ce] content-stretch flex h-[47.305px] items-center justify-center px-[17px] py-[8px] relative rounded-[8px] shrink-0 w-[120px]">
-                      <p className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">{active.label}</p>
+                      <p className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">{c.label}</p>
                     </div>
-                  </>
-                )}
+                  ) : (
+                    <p
+                      key={c.id}
+                      ref={(el) => { tabRefs.current[i] = el; }}
+                      onClick={(e) => pickTab(e, i)}
+                      className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap cursor-pointer"
+                      style={{ opacity: 0.65 }}
+                    >
+                      {c.label}
+                    </p>
+                  );
+                })}
               </div>
 
               {/* arrow → next client */}
