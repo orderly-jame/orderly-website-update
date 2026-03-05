@@ -1,5 +1,5 @@
 import svgPaths from "./svg-zguoq44uln";
-import imgImage3 from "figma:asset/c6e08f5f06c399e549455fa44c7a6787388d2bff.png";
+const imgImage3 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
 
 export default function CamelotLogo({ className }: { className?: string }) {
   return (

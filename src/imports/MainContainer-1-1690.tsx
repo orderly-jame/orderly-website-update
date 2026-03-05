@@ -1,6 +1,6 @@
 import svgPaths from "./svg-5iwicwzeh7";
-import imgKeyVisual from "figma:asset/ed77434a32b32a9c755b1387aa4563f080ec85e1.png";
-import imgYtIconWhiteDigital1 from "figma:asset/849c790c308b67c1729ad0f3a2acf90ce6c9abae.png";
+const imgKeyVisual = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
+const imgYtIconWhiteDigital1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
 import { imgGroup } from "./svg-a1vbo";
 
 function BackgroundVector() {

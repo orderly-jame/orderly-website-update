@@ -1,7 +1,7 @@
 import svgPaths from "./svg-cij16038nh";
-import imgMacBook11 from "figma:asset/ed77434a32b32a9c755b1387aa4563f080ec85e1.png";
-import imgYtIconWhiteDigital1 from "figma:asset/849c790c308b67c1729ad0f3a2acf90ce6c9abae.png";
-import imgWhyIconContainer3 from "figma:asset/9413affc013b0f443e075830b69d765001ac7209.png";
+const imgMacBook11 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
+const imgYtIconWhiteDigital1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
+const imgWhyIconContainer3 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
 import { imgGroup } from "./svg-pyps9";
 
 function Brandmark() {

@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * MobileHomePage
  *
@@ -9,7 +11,8 @@
 
 import React, { useState, useRef, useEffect, useCallback, memo } from "react";
 import { createPortal } from "react-dom";
-import { Link, useNavigate } from "react-router";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 
 // ── Figma mobile frame ───────────────────────────────────────────────────────
@@ -201,7 +204,7 @@ function MobileNavDrawer({ onClose }: { onClose: () => void }) {
                         (key === "Ecosystem" || item.label !== "FAQ") && (
                           <Link
                             key={item.label}
-                            to={item.href}
+                            href={item.href}
                             onClick={onClose}
                             className="no-underline rounded-[10px] px-[14px] py-[14px] block"
                             style={{ color: "rgba(255,255,255,0.65)", ...fontItemStyle, minHeight: 48 }}
@@ -324,7 +327,7 @@ function FooterSheet({
             ) : (
               <Link
                 key={item.label}
-                to={item.href}
+                href={item.href}
                 onClick={onClose}
                 className="no-underline hover:opacity-80 transition-opacity"
                 style={{ color: "rgba(255,255,255,0.8)", fontFamily: "'atyp-bl-variable', 'atyp-bl', sans-serif", fontVariationSettings: "'opsz' 72, 'wght' 500", fontFeatureSettings: "'ss02','ss03','ss05','ss06'", fontSize: "15px" }}
@@ -437,7 +440,7 @@ function CopiedToast({ onDone }: { onDone: () => void }) {
 export { MobileNavDrawer };
 
 export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {}) {
-  const navigate   = useNavigate();
+  const router     = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // ── modal / sheet state ──────────────────────────────────────────────────
@@ -643,7 +646,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       // Logo → home
       if (name === "Brandmark") {
         e.preventDefault();
-        navigate("/");
+        router.push("/");
         return;
       }
 
@@ -741,7 +744,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
 
       el = el.parentElement;
     }
-  }, [navigate, onMenuClick]);
+  }, [router, onMenuClick]);
 
   return (
     <div

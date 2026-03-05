@@ -1,27 +1,29 @@
+'use client';
+
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router";
+import Link from "next/link";
 import { createPortal } from "react-dom";
 import { motion } from "motion/react";
 import Check from "@mui/icons-material/Check";
 import svgPaths from "./svg-kykn6znl0w";
 import ImportedWhyContent from "./WhyContent";
-import imgMacBook11 from "figma:asset/ed77434a32b32a9c755b1387aa4563f080ec85e1.png";
+const imgMacBook11 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
 import Macbook from "./Macbook21";
-import imgYtIconWhiteDigital1 from "figma:asset/849c790c308b67c1729ad0f3a2acf90ce6c9abae.png";
+const imgYtIconWhiteDigital1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
 import { imgGroup } from "./svg-z9q1x";
 import QuickStartGroup from "./Group1597879965";
 import IcSocialYoutubeS from "./IcSocialYoutubeS24";
 import LogoContainerLogX from "./LogoContainer";
 
 // ─── SVG asset imports ────────────────────────────────────────────────────────
-import ethBadgeSrc    from "./EthBadge.svg";
-import arbBadgeSrc    from "./ArbBadge.svg";
-import solBadgeSrc    from "./SolBadge.svg";
+const ethBadgeSrc    = "/images/svg/EthBadge.svg";
+const arbBadgeSrc    = "/images/svg/ArbBadge.svg";
+const solBadgeSrc    = "/images/svg/SolBadge.svg";
 import UniswapLogo from "./UniswapLogo";
-import pancakeLogoSrc from "./PancakeLogo.svg";
+const pancakeLogoSrc = "/images/svg/PancakeLogo.svg";
 import CamelotLogo from "./CamelotLogo";
-import raydiumLogoSrc from "./RaydiumLogo.svg";
-import woofiLogoSrc   from "./WOOFiLogo.svg";
+const raydiumLogoSrc = "/images/svg/RaydiumLogo.svg";
+const woofiLogoSrc   = "/images/svg/WOOFiLogo.svg";
 
 // ─── Partnership Contact Modal ────────────────────────────────���───────────────
 export function PartnershipModal({ onClose }: { onClose: () => void }) {
@@ -373,7 +375,7 @@ function BackgroundVector1() {
 
 export function HeaderLogo() {
   return (
-    <Link to="/" className="h-[29.999px] relative shrink-0 w-[110.959px] block hover:opacity-80 transition-opacity" data-name="Header Logo">
+    <Link href="/" className="h-[29.999px] relative shrink-0 w-[110.959px] block hover:opacity-80 transition-opacity" data-name="Header Logo">
       <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 110.959 30">
         <g id="Header Logo">
           <g id="Header Logo Icon">
@@ -460,7 +462,7 @@ function DropdownPanel({ items, onEnter, onLeave }: { items: DropdownItem[]; onE
             </p>
           );
           return isInternal ? (
-            <Link key={item.label} to={item.href} className={linkClass}>{inner}</Link>
+            <Link key={item.label} href={item.href} className={linkClass}>{inner}</Link>
           ) : (
             <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className={linkClass}>{inner}</a>
           );
@@ -1705,7 +1707,7 @@ function AboutLinksContainer() {
       <a href="https://dune.com/orderly_network/orderly-dashboard" target="_blank" rel="noopener noreferrer" className="no-underline hover:opacity-80 transition-opacity"><CareersLinkContainer /></a>
       <a href="https://job-boards.greenhouse.io/orderly" target="_blank" rel="noopener noreferrer" className="no-underline hover:opacity-80 transition-opacity"><CareersLinkContainer1 /></a>
       <a href="https://live.standards.site/orderly-brandguidelines" target="_blank" rel="noopener noreferrer" className="no-underline hover:opacity-80 transition-opacity"><ContactLinkContainer /></a>
-      <Link to="/faq" className="no-underline hover:opacity-80 transition-opacity"><ContactLinkContainer1 /></Link>
+      <Link href="/faq" className="no-underline hover:opacity-80 transition-opacity"><ContactLinkContainer1 /></Link>
     </div>
   );
 }
@@ -3221,7 +3223,7 @@ export default function Frame7() {
   
   const transition = {
     duration: 0.7,
-    ease: [0.22, 0.61, 0.36, 1],
+    ease: [0.22, 0.61, 0.36, 1] as const,
   };
   
   return (

@@ -1,4 +1,4 @@
-import imgFrame16188720501 from "figma:asset/0012d7d6e6d1d1e922dcf0df7d8a0157a3f7f4b2.png";
+const imgFrame16188720501 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
 
 function Frame() {
   return (
