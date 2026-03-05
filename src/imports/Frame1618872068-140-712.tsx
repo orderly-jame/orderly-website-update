@@ -3,7 +3,7 @@ const imgMacBook11 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYA
 const imgWhyIconContainer3 = "/images/deep-shared-liquidity.png";
 const imgWhyIconContainer12 = "/images/omnichain-by-default.png";
 const imgWhyIconContainer22 = "/images/you-own-the-economics.png";
-const imgWhyIconContainer31 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
+const imgWhyIconContainer31 = "/images/ship-fast.png";
 const imgWhyIconContainer42 = "/images/self-custody.png";
 const imgWhyIconContainer52 = "/images/battle-tested.png";
 const imgYtIconWhiteDigital1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
