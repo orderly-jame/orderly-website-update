@@ -116,7 +116,7 @@ function Group9() {
   return (
     <div className="absolute contents left-[10.93px] top-[63.58px]">
       <BackgroundVector />
-      <MacbookVideo className="-translate-x-1/2 absolute h-[219.084px] left-[calc(50%+1.72px)] top-[111.84px] w-[294.328px]" />
+      <MacbookVideo className="-translate-x-1/2 absolute h-[219.084px] left-[calc(50%+1.72px)] top-[111.84px] w-[294.328px]" canvasWidth={294} canvasHeight={219} />
     </div>
   );
 }

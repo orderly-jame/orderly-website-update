@@ -11,7 +11,7 @@ import Check from "@mui/icons-material/Check";
 import svgPaths from "./svg-kykn6znl0w";
 import ImportedWhyContent from "./WhyContent";
 const imgMacBook11 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
-import Macbook from "./Macbook21";
+import MacbookVideo from "@/app/components/MacbookVideo";
 const imgYtIconWhiteDigital1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
 import { imgGroup } from "./svg-z9q1x";
 import QuickStartGroup from "./Group1597879965";
@@ -3210,11 +3210,7 @@ export default function Frame7() {
           <path d={svgPaths.p21fe2280} fill="var(--fill-0, #9C75FF)" id="Vector 7" />
         </svg>
       </div>
-      <div className="-translate-x-1/2 absolute h-[837.698px] left-[calc(50%-0.1px)] top-[611.56px] w-[1125.404px]" data-name="MacBook垂直背面摄影 1 拷贝 1">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img alt="" className="absolute h-[200.56%] left-[-24.63%] max-w-none top-[-51.02%] w-[149.29%]" src={imgMacBook11} />
-        </div>
-      </div>
+      <MacbookVideo className="-translate-x-1/2 absolute h-[837.698px] left-[calc(50%-0.1px)] top-[611.56px] w-[1125.404px]" />
       <div className="absolute h-0 left-[-2.1px] mix-blend-color top-[1383.91px] w-[1440px]">
         <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 32 32">
           <g id="Rectangle 376715163" style={{ mixBlendMode: "color" }} />
