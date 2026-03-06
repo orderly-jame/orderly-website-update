@@ -3209,11 +3209,6 @@ export default function Frame7() {
         </svg>
       </div>
       <MacbookVideo className="-translate-x-1/2 absolute h-[837.698px] left-[calc(50%-0.1px)] top-[611.56px] w-[1125.404px]" />
-      <div className="absolute h-0 left-[-2.1px] mix-blend-color top-[1383.91px] w-[1440px]">
-        <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 32 32">
-          <g id="Rectangle 376715163" style={{ mixBlendMode: "color" }} />
-        </svg>
-      </div>
       
       {/* Nav - appears immediately on load */}
       <motion.div initial="hidden" animate="visible" variants={sectionVariants} transition={transition}>
