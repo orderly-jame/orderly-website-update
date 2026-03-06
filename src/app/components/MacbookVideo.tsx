@@ -10,6 +10,25 @@ export default function MacbookVideo({
 }: MacbookVideoProps) {
   const isMobile = canvasWidth < 500;
 
+  if (isMobile) {
+    return (
+      <div className={className}>
+        <img
+          src="/images/macbook-static-mobile.png"
+          alt=""
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            pointerEvents: "none",
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={className}>
       <video
@@ -26,17 +45,8 @@ export default function MacbookVideo({
           pointerEvents: "none",
         }}
       >
-        {isMobile ? (
-          <>
-            <source src="/images/macbook-mobile.mov" type="video/quicktime" />
-            <source src="/images/macbook-mobile.webm" type="video/webm" />
-          </>
-        ) : (
-          <>
-            <source src="/images/macbook.mov" type="video/quicktime" />
-            <source src="/images/macbook.webm" type="video/webm" />
-          </>
-        )}
+        <source src="/images/macbook.mov" type="video/quicktime" />
+        <source src="/images/macbook.webm" type="video/webm" />
       </video>
     </div>
   );

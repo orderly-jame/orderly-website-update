@@ -20,7 +20,7 @@ import { useNewsletterSubscribe } from "@/app/hooks/useNewsletterSubscribe";
 import Frame40 from "../../imports/Frame1618872068-142-633";
 
 // ── Desktop modals — single source of truth, reused on mobile ───────────────
-import { PartnershipModal, BuyOrderModal } from "../../imports/Frame1618872018";
+import { BuyOrderModal } from "../../imports/Frame1618872018";
 
 // ── Mobile icon paths (same file Frame40 uses for Brandmark) ─────────────────
 import svgPathsMobile from "../../imports/svg-4hybjba00c";
@@ -39,10 +39,10 @@ import {
 /* ─────────────────────────── mobile-only constants ─────────────────────────── */
 
 // card width + gap used for carousel scrolling
-const WHY_CARD_STEP  = 254; // 240 px card + 14 px gap
+const WHY_CARD_STEP = 254; // 240 px card + 14 px gap
 const BUILD_CARD_STEP = 254;
-const WHY_MAX_IDX    = 5;
-const BUILD_MAX_IDX  = 4;
+const WHY_MAX_IDX = 5;
+const BUILD_MAX_IDX = 4;
 
 /* ─────────────────────────── mobile-only helper walkers ─────────────────────── */
 
@@ -77,9 +77,9 @@ function MobileNavDrawer({ onClose }: { onClose: () => void }) {
   const [openSection, setOpenSection] = useState<string | null>(null);
 
   const NAV_SECTIONS = [
-    { key: "Builders",  items: FOOTER_NAV.Builders  },
-    { key: "Ecosystem", items: FOOTER_NAV.Ecosystem  },
-    { key: "Traders",   items: FOOTER_NAV.Traders    },
+    { key: "Builders", items: FOOTER_NAV.Builders },
+    { key: "Ecosystem", items: FOOTER_NAV.Ecosystem },
+    { key: "Traders", items: FOOTER_NAV.Traders },
   ];
 
   const toggle = (key: string) =>
@@ -121,10 +121,10 @@ function MobileNavDrawer({ onClose }: { onClose: () => void }) {
         <div className="flex items-center gap-[10px]">
           <div className="relative shrink-0" style={{ width: 28, height: 28 }}>
             <svg className="absolute block w-full h-full" fill="none" preserveAspectRatio="none" viewBox="0 0 31.9999 31.9608">
-              <path clipRule="evenodd" d={svgPathsMobile.p2fe0400}  fill="white" fillRule="evenodd" />
+              <path clipRule="evenodd" d={svgPathsMobile.p2fe0400} fill="white" fillRule="evenodd" />
               <path clipRule="evenodd" d={svgPathsMobile.p2f88ca00} fill="white" fillRule="evenodd" />
               <path clipRule="evenodd" d={svgPathsMobile.p22c01780} fill="white" fillRule="evenodd" />
-              <path clipRule="evenodd" d={svgPathsMobile.p527fe00}  fill="white" fillRule="evenodd" />
+              <path clipRule="evenodd" d={svgPathsMobile.p527fe00} fill="white" fillRule="evenodd" />
             </svg>
           </div>
 
@@ -137,7 +137,7 @@ function MobileNavDrawer({ onClose }: { onClose: () => void }) {
           aria-label="Close navigation"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </button>
       </div>
@@ -165,7 +165,7 @@ function MobileNavDrawer({ onClose }: { onClose: () => void }) {
                   flexShrink: 0,
                 }}
               >
-                <path d="M4 6l4 4 4-4" stroke="#9c9fae" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M4 6l4 4 4-4" stroke="#9c9fae" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
 
@@ -192,13 +192,13 @@ function MobileNavDrawer({ onClose }: { onClose: () => void }) {
                           className="flex items-center justify-between no-underline rounded-[10px] px-[14px] py-[14px]"
                           style={{ color: "rgba(255,255,255,0.65)", ...fontItemStyle, minHeight: 48 }}
                           onTouchStart={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(103,0,206,0.15)"; (e.currentTarget as HTMLAnchorElement).style.color = "#9c75ff"; }}
-                          onTouchEnd={(e)   => { setTimeout(() => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.65)"; }, 200); }}
+                          onTouchEnd={(e) => { setTimeout(() => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.65)"; }, 200); }}
                           onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(103,0,206,0.15)"; (e.currentTarget as HTMLAnchorElement).style.color = "#9c75ff"; }}
                           onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.65)"; }}
                         >
                           <span>{item.label}</span>
                           <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.3, flexShrink: 0 }}>
-                            <path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </a>
                       ) : (
@@ -210,7 +210,7 @@ function MobileNavDrawer({ onClose }: { onClose: () => void }) {
                             className="no-underline rounded-[10px] px-[14px] py-[14px] block"
                             style={{ color: "rgba(255,255,255,0.65)", ...fontItemStyle, minHeight: 48 }}
                             onTouchStart={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(103,0,206,0.15)"; (e.currentTarget as HTMLAnchorElement).style.color = "white"; }}
-                            onTouchEnd={(e)   => { setTimeout(() => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.65)"; }, 200); }}
+                            onTouchEnd={(e) => { setTimeout(() => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.65)"; }, 200); }}
                             onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(103,0,206,0.15)"; (e.currentTarget as HTMLAnchorElement).style.color = "white"; }}
                             onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.65)"; }}
                           >
@@ -236,11 +236,11 @@ function MobileNavDrawer({ onClose }: { onClose: () => void }) {
             className="flex items-center justify-between no-underline py-[18px] px-[24px]"
             style={{ ...fontSectionStyle, minHeight: 56 }}
             onTouchStart={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.7"; }}
-            onTouchEnd={(e)   => { setTimeout(() => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }, 200); }}
+            onTouchEnd={(e) => { setTimeout(() => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }, 200); }}
           >
             Docs
             <svg width="14" height="14" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.35, flexShrink: 0 }}>
-              <path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
         </div>
@@ -307,7 +307,7 @@ function FooterSheet({
             aria-label="Close"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
             </svg>
           </button>
         </div>
@@ -374,7 +374,7 @@ function SignUpModal({ onClose }: { onClose: () => void }) {
             className="text-[#9c9fae] hover:text-white transition-colors bg-transparent border-0 cursor-pointer p-0"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
             </svg>
           </button>
         </div>
@@ -430,7 +430,7 @@ function CopiedToast({ onDone }: { onDone: () => void }) {
       style={{ background: "#1e2026", color: "white", fontFamily: "'atyp-bl-variable', 'atyp-bl', sans-serif", fontVariationSettings: "'opsz' 72, 'wght' 500", fontFeatureSettings: "'ss02','ss03','ss05','ss06'", fontSize: "14px", whiteSpace: "nowrap" }}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-        <path d="M5 13l4 4L19 7" stroke="#6700ce" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M5 13l4 4L19 7" stroke="#6700ce" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       Copied to clipboard
     </motion.div>
@@ -442,27 +442,26 @@ function CopiedToast({ onDone }: { onDone: () => void }) {
 export { MobileNavDrawer };
 
 export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {}) {
-  const router     = useRouter();
+  const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // ── modal / sheet state ──────────────────────────────────────────────────
   // navOpen is managed externally via onMenuClick prop (Home.tsx renders MobileNavDrawer
   // outside the motion.div stacking context so position:fixed works correctly)
-  const [partnershipsOpen, setPartnershipsOpen] = useState(false);
-  const [signUpOpen,       setSignUpOpen]       = useState(false);
-  const [copiedToast,      setCopiedToast]      = useState(false);
-  const [footerSheet,      setFooterSheet]      = useState<string | null>(null);
-  const [buyOrderOpen,     setBuyOrderOpen]     = useState(false);
+  const [signUpOpen, setSignUpOpen] = useState(false);
+  const [copiedToast, setCopiedToast] = useState(false);
+  const [footerSheet, setFooterSheet] = useState<string | null>(null);
+  const [buyOrderOpen, setBuyOrderOpen] = useState(false);
 
   // ── carousel index state ─────────────────────────────────────────────────
-  const [whyIdx,   setWhyIdx]   = useState(0);
+  const [whyIdx, setWhyIdx] = useState(0);
   const [buildIdx, setBuildIdx] = useState(0);
 
   /* ── enable horizontal scroll on carousels ── */
   useEffect(() => {
     const wrap = wrapperRef.current;
     if (!wrap) return;
-    const whyCont   = wrap.querySelector('[data-name="Why Content List"]')   as HTMLElement | null;
+    const whyCont = wrap.querySelector('[data-name="Why Content List"]') as HTMLElement | null;
     const buildCont = wrap.querySelector('[data-name="Build Content List"]') as HTMLElement | null;
     [whyCont, buildCont].forEach((el) => {
       if (!el) return;
@@ -488,7 +487,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       if (!buildCont) return;
       setBuildIdx(Math.round(buildCont.scrollLeft / BUILD_CARD_STEP));
     };
-    whyCont?.addEventListener("scroll",   onWhyScroll,   { passive: true });
+    whyCont?.addEventListener("scroll", onWhyScroll, { passive: true });
     buildCont?.addEventListener("scroll", onBuildScroll, { passive: true });
 
     // ── Fix: decorative BackgroundVector SVG overlaps the hero buttons ──────
@@ -513,11 +512,11 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
     const heroFrame = wrap.querySelector('[data-name="Frame"]') as HTMLElement | null;
     if (heroFrame) {
       heroFrame.style.position = "relative";
-      heroFrame.style.zIndex   = "2";
+      heroFrame.style.zIndex = "2";
     }
 
     return () => {
-      whyCont?.removeEventListener("scroll",   onWhyScroll);
+      whyCont?.removeEventListener("scroll", onWhyScroll);
       buildCont?.removeEventListener("scroll", onBuildScroll);
     };
   }, []);
@@ -541,7 +540,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
 
     // Small delay so Frame40 has fully mounted its DOM
     const t = setTimeout(() => {
-      const buildEls   = Array.from(wrap.querySelectorAll('[data-name="build with orderly"]'));
+      const buildEls = Array.from(wrap.querySelectorAll('[data-name="build with orderly"]'));
       const partnerEls = Array.from(wrap.querySelectorAll('[data-name="Trade on Orderly"]'));
 
       const onBuild = (e: Event) => {
@@ -550,17 +549,17 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       };
       const onPartner = (e: Event) => {
         e.stopPropagation();
-        setPartnershipsOpen(true);
+        window.location.href = `mailto:midoji@orderly.network?subject=${encodeURIComponent("Partnership Inquiry from Orderly Website")}&body=${encodeURIComponent("First Name:\nLast Name:\nEmail:\nCompany / Project:\nMessage:\n")}`;
       };
 
-      buildEls.forEach(el   => el.addEventListener("click", onBuild));
+      buildEls.forEach(el => el.addEventListener("click", onBuild));
       partnerEls.forEach(el => el.addEventListener("click", onPartner));
 
       // Stash cleanup refs on the wrap element itself so we can remove them
-      (wrap as any).__buildEls   = buildEls;
+      (wrap as any).__buildEls = buildEls;
       (wrap as any).__partnerEls = partnerEls;
-      (wrap as any).__onBuild    = onBuild;
-      (wrap as any).__onPartner  = onPartner;
+      (wrap as any).__onBuild = onBuild;
+      (wrap as any).__onPartner = onPartner;
     }, 100);
 
     return () => {
@@ -568,7 +567,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       const w = wrap as any;
       w.__buildEls?.forEach((el: Element) => el.removeEventListener("click", w.__onBuild));
       w.__partnerEls?.forEach((el: Element) => el.removeEventListener("click", w.__onPartner));
-      const whyCont   = wrap.querySelector('[data-name="Why Content List"]')   as HTMLElement | null;
+      const whyCont = wrap.querySelector('[data-name="Why Content List"]') as HTMLElement | null;
       const buildCont = wrap.querySelector('[data-name="Build Content List"]') as HTMLElement | null;
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -576,11 +575,11 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
   /* ── identify which carousel an arrow belongs to ── */
   function getCarouselContext(el: HTMLElement | null): "why" | "build" | null {
     while (el) {
-      if (el.getAttribute("data-name") === "Why Content List")   return "why";
+      if (el.getAttribute("data-name") === "Why Content List") return "why";
       if (el.getAttribute("data-name") === "Build Content List") return "build";
       const text = el.textContent ?? "";
-      if (text.includes("Why Orderly?"))        return "why";
-      if (text.includes("What you can build"))  return "build";
+      if (text.includes("Why Orderly?")) return "why";
+      if (text.includes("What you can build")) return "build";
       el = el.parentElement;
     }
     return null;
@@ -594,13 +593,13 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
     const action = walkDataAction(target);
     if (action === "copy-ai-url") {
       e.preventDefault();
-      copyToClipboard(AI_URL).catch(() => {});
+      copyToClipboard(AI_URL).catch(() => { });
       setCopiedToast(true);
       return;
     }
     if (action === "copy-npx") {
       e.preventDefault();
-      copyToClipboard(NPX_CMD).catch(() => {});
+      copyToClipboard(NPX_CMD).catch(() => { });
       setCopiedToast(true);
       return;
     }
@@ -644,10 +643,10 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
         return;
       }
 
-      // Talk to Partnerships → same PartnershipModal used on desktop
+      // Talk to Partnerships
       if (name === "Trade on Orderly") {
         e.preventDefault();
-        setPartnershipsOpen(true);
+        window.location.href = `mailto:midoji@orderly.network?subject=${encodeURIComponent("Partnership Inquiry from Orderly Website")}&body=${encodeURIComponent("First Name:\nLast Name:\nEmail:\nCompany / Project:\nMessage:\n")}`;
         return;
       }
 
@@ -678,7 +677,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
         e.preventDefault();
         const children = Array.from(el.children) as HTMLElement[];
         const icon = children.find((c) => c === target || c.contains(target));
-        const idx  = icon ? children.indexOf(icon) : -1;
+        const idx = icon ? children.indexOf(icon) : -1;
         if (idx >= 0 && SOCIAL_LINKS[idx]) openUrl(SOCIAL_LINKS[idx]);
         return;
       }
@@ -694,7 +693,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       // AI access URL copy
       if (name === "ai-url" || name === "ai-copy") {
         e.preventDefault();
-        copyToClipboard(AI_URL).catch(() => {});
+        copyToClipboard(AI_URL).catch(() => { });
         setCopiedToast(true);
         return;
       }
@@ -710,15 +709,15 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       if (name === "Arrow right-circle") {
         e.preventDefault();
         const ctx = getCarouselContext(el.parentElement);
-        if (ctx === "why")   setWhyIdx((i)   => Math.min(i + 1, WHY_MAX_IDX));
-        if (ctx === "build") setBuildIdx((i)  => Math.min(i + 1, BUILD_MAX_IDX));
+        if (ctx === "why") setWhyIdx((i) => Math.min(i + 1, WHY_MAX_IDX));
+        if (ctx === "build") setBuildIdx((i) => Math.min(i + 1, BUILD_MAX_IDX));
         return;
       }
       if (name === "Arrow left-circle") {
         e.preventDefault();
         const ctx = getCarouselContext(el.parentElement);
-        if (ctx === "why")   setWhyIdx((i)   => Math.max(i - 1, 0));
-        if (ctx === "build") setBuildIdx((i)  => Math.max(i - 1, 0));
+        if (ctx === "why") setWhyIdx((i) => Math.max(i - 1, 0));
+        if (ctx === "build") setBuildIdx((i) => Math.max(i - 1, 0));
         return;
       }
 
@@ -740,13 +739,6 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       <Frame40 onMenuClick={onMenuClick} />
 
       {/* Nav drawer is rendered in Home.tsx outside the motion.div stacking context */}
-
-      {/* ── Partnerships modal — exact same component as desktop ── */}
-      <AnimatePresence>
-        {partnershipsOpen && (
-          <PartnershipModal onClose={() => setPartnershipsOpen(false)} />
-        )}
-      </AnimatePresence>
 
       {/* ── Buy ORDER modal — exact same component as desktop ── */}
       <AnimatePresence>
