@@ -5,7 +5,13 @@ export const metadata: Metadata = {
   title: "Orderly | Own The Exchange",
   description: "Omnichain orderbook infrastructure for DeFi",
   icons: {
-    icon: "/images/favicon.svg",
+    icon: [
+      { url: "/images/favicon.svg", type: "image/svg+xml" },
+      { url: "/images/favicon-fallback.png" },
+    ],
+    apple: [
+      { url: "/images/apple-touch-icon.png" },
+    ],
   },
 };
 
