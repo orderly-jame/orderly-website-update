@@ -133,7 +133,7 @@ export default function Home() {
   // MobileNavDrawer is rendered OUTSIDE the motion.div so position:fixed
   // is always relative to the true viewport (no stacking-context interference).
   return (
-    <div style={{ width: "100vw", overflowX: "hidden", overscrollBehavior: "none", background: "#000" }}>
+    <div style={{ width: "100vw", overflowX: "hidden", background: "#000" }}>
       <ScaledFrame designWidth={MOBILE_DESIGN_WIDTH} autoHeight>
         <MobileHomePage onMenuClick={handleOpenNav} />
       </ScaledFrame>
