@@ -1,4 +1,4 @@
-const imgWhyIconContainer3 = "/images/deep-shared-liquidity.png";
+const imgWhyIconContainer3 = "/images/deep-liquidity.png";
 const imgWhyIconContainer12 = "/images/omnichain-by-default.png";
 const imgWhyIconContainer22 = "/images/you-own-the-economics.png";
 const imgWhyIconContainer31 = "/images/ship-fast.png";

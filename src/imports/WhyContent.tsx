@@ -1,4 +1,4 @@
-const whyIcon1 = "/images/deep-shared-liquidity.png";
+const whyIcon1 = "/images/deep-liquidity.png";
 const whyIcon2 = "/images/omnichain-by-default.png";
 const whyIcon3 = "/images/you-own-the-economics.png";
 const whyIcon4 = "/images/ship-fast.png";
