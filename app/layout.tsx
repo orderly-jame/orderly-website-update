@@ -16,7 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head />
+      <head>
+        <link rel="preload" href="/images/macbook-poster.webp" as="image" type="image/webp" media="(min-width: 768px)" />
+        <link rel="preload" href="/images/macbook-mobile-poster.webp" as="image" type="image/webp" media="(max-width: 767px)" />
+      </head>
       <body className="bg-black">
         <div style={{ width: "100vw", overflowX: "hidden" }}>
           {children}

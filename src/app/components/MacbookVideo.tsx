@@ -17,6 +17,7 @@ export default function MacbookVideo({
         muted
         playsInline
         loop={false}
+        poster={isMobile ? "/images/macbook-mobile-poster.webp" : "/images/macbook-poster.webp"}
         style={{
           position: "absolute",
           inset: 0,
