@@ -1712,20 +1712,6 @@ function FooterSection() {
   );
 }
 
-function NewsletterButtonContainer({ onClick, isSubmitted }: { onClick: () => void; isSubmitted: boolean }) {
-  return (
-    <button
-      onClick={onClick}
-      className="col-1 content-stretch flex gap-[7px] items-center justify-center ml-[427.79px] mt-[24.5px] relative row-1 bg-transparent border-0 cursor-pointer hover:opacity-80 transition-opacity w-[142px]"
-      data-name="Newsletter Button Container"
-    >
-      <p className="font-['Atyp_BL:Bold',sans-serif] leading-none not-italic relative shrink-0 text-[20px] text-white tracking-[0.2px] flex items-center justify-center" style={{ fontFeatureSettings: "'liga' 0" }}>
-        {isSubmitted ? <CheckSvg /> : "Sign Up"}
-      </p>
-    </button>
-  );
-}
-
 function Group9() {
   const [email, setEmail] = useState("");
   const { status, subscribe, reset } = useNewsletterSubscribe();
@@ -1740,53 +1726,61 @@ function Group9() {
   };
 
   return (
-    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0">
-      <div className="bg-[#7800f0] col-1 h-[69px] ml-0 mt-0 rounded-bl-[20px] rounded-tl-[20px] row-1 w-[427.788px]" data-name="Newsletter Input Background" />
-      <div className="col-1 flex h-[69px] items-center justify-center ml-[427.79px] mt-0 relative row-1 w-[142px]">
-        <div className="flex-none rotate-180">
-          <div
-            className="h-[69px] rounded-bl-[20px] rounded-tl-[20px] w-[142px] relative bg-black"
-            data-name="Newsletter Button Background"
-          >
-            {isSubmitted && (
-              <div className="-rotate-180 absolute inset-0 flex items-center justify-center pointer-events-none">
-                <svg viewBox="0 0 24 24" className="w-6 h-6" fill="white">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-              </div>
-            )}
-          </div>
-        </div>
+    <div className="flex flex-row items-center h-[56px] w-full rounded-[14px] overflow-hidden">
+      <div className="flex-1 h-full bg-[#7800f0] flex items-center px-[18px]">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          className="font-['Atyp_BL:Medium',sans-serif] leading-[1.4] not-italic text-[20px] text-white tracking-[0.504px] bg-transparent border-0 outline-none w-full placeholder:opacity-70"
+          style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}
+          placeholder="satoshi@orderly.network"
+        />
       </div>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="col-1 font-['Atyp_BL:Medium',sans-serif] leading-[1.4] ml-[18.34px] mt-[16px] not-italic relative row-1 text-[24px] text-white tracking-[0.504px] bg-transparent border-0 outline-none w-[390px] placeholder:opacity-70"
-        style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}
-        placeholder="satoshi@orderly.network"
-      />
-      <NewsletterButtonContainer onClick={handleSubmit} isSubmitted={isSubmitted} />
-    </div>
-  );
-}
-
-function Frame11() {
-  return (
-    <div className="content-stretch flex flex-col gap-[20px] items-center relative shrink-0">
-      <div className="font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] not-italic relative shrink-0 text-[30px] text-white tracking-[0.3px] whitespace-nowrap text-center" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-        <p className="mb-0">Be the first to hear about launches,</p>
-        <p>token listings, and builder updates.</p>
-      </div>
-      <Group9 />
+      <button
+        onClick={handleSubmit}
+        className="h-full px-[28px] bg-black border-0 cursor-pointer hover:opacity-80 transition-opacity rounded-[14px] shrink-0"
+        data-name="Newsletter Button Container"
+      >
+        <p className="font-['Atyp_BL:Bold',sans-serif] leading-none not-italic text-[18px] text-white tracking-[0.2px] flex items-center justify-center" style={{ fontFeatureSettings: "'liga' 0" }}>
+          {isSubmitted ? <CheckSvg /> : "Sign Up"}
+        </p>
+      </button>
     </div>
   );
 }
 
 function Frame12() {
   return (
-    <div className="absolute bg-[#6700ce] content-stretch flex flex-col h-[235.098px] items-center justify-center left-[68.89px] p-[30px] rounded-[30px] top-[6071px] w-[1302px]">
-      <Frame11 />
+    <div className="absolute flex flex-row items-center justify-between h-[235.098px] left-[68.89px] top-[6071px] w-[1302px]">
+      {/* Left: text, transparent background */}
+      <div className="flex flex-col justify-center w-[50%]">
+        <div className="font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] not-italic text-[30px] text-white tracking-[0.3px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+          <p className="mb-0">Be the first to hear about launches,</p>
+          <p>token listings, and builder updates.</p>
+        </div>
+      </div>
+      {/* Right: purple card with email form */}
+      <div className="flex flex-col justify-center bg-[#6700ce] rounded-[30px] px-[40px] py-[30px] w-[50%]">
+        <div className="flex flex-col gap-[16px]">
+          <p className="font-['Atyp_BL:Semibold',sans-serif] leading-none not-italic text-[24px] text-white tracking-[0.24px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+            Enter Your Email
+          </p>
+          <Group9 />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Frame11() {
+  return (
+    <div className="content-stretch flex flex-col gap-[16px] relative shrink-0">
+      <p className="font-['Atyp_BL:Semibold',sans-serif] leading-none not-italic text-[24px] text-white tracking-[0.24px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+        Enter Your Email
+      </p>
+      <Group9 />
     </div>
   );
 }
@@ -2004,45 +1998,49 @@ function AIAgentCard() {
   };
 
   return (
-    <div className="bg-[#0c0d10] rounded-[30px] p-[36px] flex flex-col gap-[24px] w-[480px] shrink-0 border border-white/5">
+    <div className="rounded-[16px] p-[32px] flex flex-col gap-[24px] w-[480px] shrink-0" style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(0,0,0,0) 100%)", border: "1px solid rgba(168,85,247,0.2)" }}>
       {/* Card header */}
       <div className="flex items-center gap-[12px]">
-        <div className="size-[40px] rounded-full bg-purple-900/50 flex items-center justify-center text-[20px]">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="6" width="18" height="13" rx="3" stroke="#a78bfa" strokeWidth="1.5"/>
-            <circle cx="9" cy="13" r="1.5" fill="#a78bfa"/>
-            <circle cx="15" cy="13" r="1.5" fill="#a78bfa"/>
-            <path d="M8 3v3M16 3v3" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
+        <div className="size-[48px] rounded-full bg-[#7c3aed] flex items-center justify-center text-[24px]">
+          &#129302;
         </div>
         <div>
-          <p className="font-['Atyp_BL:Bold',sans-serif] text-[20px] text-white leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>AI Agent</p>
-          <p className="font-['Atyp_BL:Medium',sans-serif] text-[14px] text-[#4ade80] leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>Autonomous setup</p>
+          <p className="font-['Atyp_BL:Bold',sans-serif] text-[24px] text-white leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>AI Agent</p>
+          <p className="font-['Atyp_BL:Medium',sans-serif] text-[14px] text-[#a78bfa] leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>Autonomous setup</p>
         </div>
       </div>
 
       {/* Description */}
-      <p className="font-['Atyp_BL:Medium',sans-serif] text-[18px] text-white/80 leading-[1.5]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+      <p className="font-['Atyp_BL:Medium',sans-serif] text-[18px] text-white/70 leading-[1.5]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
         Read the onboarding skill to understand Orderly&apos;s capabilities:
       </p>
 
       {/* URL box */}
-      <button
-        onClick={handleCopy}
-        className="bg-[#1e2026] rounded-[12px] px-[18px] py-[14px] flex items-center justify-between cursor-pointer border border-white/5 hover:border-white/10 transition-colors w-full"
-      >
-        <span className="font-['DM_Mono:Medium',sans-serif] text-[18px] text-white/70">
-          orderly.network/skill.md
-        </span>
-        <span className="font-['Atyp_BL:Bold',sans-serif] text-[14px] text-white/60">
-          {copied ? <CheckSvg /> : "Copy"}
-        </span>
-      </button>
+      <div className="relative group">
+        <div className="rounded-[12px] px-[16px] py-[14px]" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+          <a href={url} target="_blank" rel="noopener noreferrer" className="font-['DM_Mono:Medium',sans-serif] text-[16px] text-[#a78bfa] no-underline hover:text-[#c4b5fd] transition-colors">
+            orderly.network/skill.md
+          </a>
+        </div>
+        <button
+          onClick={handleCopy}
+          title={copied ? "Copied!" : "Copy to clipboard"}
+          className="absolute right-[12px] top-[10px] p-[8px] rounded-[6px] transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+          style={{ background: "rgba(255,255,255,0.1)" }}
+        >
+          {copied ? <CheckSvg /> : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          )}
+        </button>
+      </div>
 
       {/* Why callout */}
-      <div className="bg-purple-900/20 border border-purple-500/20 rounded-[12px] px-[18px] py-[14px]">
-        <p className="font-['Atyp_BL:Medium',sans-serif] text-[16px] text-white/80 leading-[1.6]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-          <span className="font-['Atyp_BL:Bold',sans-serif] text-white">Why?</span>{" "}
+      <div className="rounded-[12px] px-[16px] py-[14px]" style={{ background: "rgba(168,85,247,0.1)", border: "1px solid rgba(168,85,247,0.3)" }}>
+        <p className="font-['Atyp_BL:Medium',sans-serif] text-[15px] text-[#c4b5fd] leading-[1.6]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+          <strong className="text-white">Why?</strong>{" "}
           This skill contains comprehensive documentation about Orderly&apos;s API, SDK, trading workflows, and best practices for agents.
         </p>
       </div>
@@ -2131,7 +2129,7 @@ function QuickStartSection() {
   return (
     <div className="absolute content-stretch flex flex-col gap-[48px] items-center left-[68.89px] top-[3876px] w-[1302px]" data-name="Quick Start Section">
       <QuickStartHeader />
-      <div className="flex gap-[22px] items-start w-full">
+      <div className="flex gap-[22px] items-stretch w-full">
         <AIAgentCard />
         <QuickStartContent />
       </div>
@@ -2600,7 +2598,7 @@ function WhyContentList({ scrollRef, onScroll }: { scrollRef: React.RefObject<HT
     <div
       ref={scrollRef}
       onScroll={onScroll}
-      className="absolute left-[69.15px] top-[2448.38px] overflow-x-auto"
+      className="absolute left-[69.15px] top-[2448.38px] overflow-x-auto overscroll-x-none hide-scrollbar"
       style={{ width: "1380px", scrollbarWidth: "none" } as React.CSSProperties}
       data-name="Why Content List"
     >
@@ -2807,7 +2805,7 @@ function BuildContentList({ scrollRef, onScroll }: { scrollRef: React.RefObject<
     <div
       ref={scrollRef}
       onScroll={onScroll}
-      className="absolute left-[69.15px] top-[3276.78px] overflow-x-auto flex gap-[25px] items-center"
+      className="absolute left-[69.15px] top-[3276.78px] overflow-x-auto overscroll-x-none flex gap-[25px] items-center hide-scrollbar"
       style={{ width: "1380px", scrollbarWidth: "none" } as React.CSSProperties}
       data-name="Build Content List"
     >

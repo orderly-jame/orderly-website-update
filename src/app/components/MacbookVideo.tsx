@@ -30,12 +30,13 @@ export default function MacbookVideo({
   }
 
   return (
-    <div className={className}>
+    <div className={className} style={{ pointerEvents: "none" }}>
       <video
         autoPlay
         muted
         playsInline
         loop={false}
+        tabIndex={-1}
         style={{
           position: "absolute",
           inset: 0,

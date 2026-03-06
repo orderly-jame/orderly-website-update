@@ -5,9 +5,9 @@ import { AnimatePresence } from "motion/react";
 import Frame7 from "../../imports/Frame1618872018";
 import { MobileHomePage, MobileNavDrawer } from "../components/MobileHomePage";
 
-// Desktop / tablet Figma canvas: 1440 × 6500 px
+// Desktop / tablet Figma canvas: 1440 × 6900 px
 const DESIGN_WIDTH = 1440;
-const DESIGN_HEIGHT = 6500;
+const DESIGN_HEIGHT = 6900;
 
 // Mobile Figma canvas: 375 px wide
 const MOBILE_DESIGN_WIDTH = 375;
@@ -75,8 +75,10 @@ function ScaledFrame({
       style={{
         width: "100%",
         height: `${scaledHeight}px`,
-        // visible so nav dropdowns are never clipped by the outer wrapper
-        overflow: "visible",
+        // clip on X prevents horizontal page scrollbar without creating a scroll container,
+        // so overflowY stays truly visible (nav dropdowns are never clipped).
+        overflowX: "clip",
+        overflowY: "visible",
         display: "flex",
         alignItems: "flex-start",
         justifyContent: cap && scale === 1 ? "center" : "flex-start",
@@ -120,7 +122,7 @@ export default function Home() {
   // Desktop & tablet: pixel-perfect ScaledFrame of the 1440 px Figma canvas
   if (viewport === "desktop" || viewport === "tablet") {
     return (
-      <div style={{ width: "100vw", overflowX: "hidden", background: "#000", display: "flex", justifyContent: "center" }}>
+      <div style={{ width: "100%", overflowX: "hidden", background: "#000", display: "flex", justifyContent: "center" }}>
         <div style={{ width: "100%", maxWidth: "1200px" }}>
           <ScaledFrame cap>
             <Frame7 />

@@ -1040,49 +1040,50 @@ function MobileAIAgentCard() {
   };
 
   return (
-    <div className="bg-[#0c0d10] rounded-[20px] p-[24px] flex flex-col gap-[16px] w-full border border-white/5">
+    <div className="rounded-[16px] p-[24px] flex flex-col gap-[16px] w-full" style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(0,0,0,0) 100%)", border: "1px solid rgba(168,85,247,0.2)" }}>
       {/* Header */}
       <div className="flex items-center gap-[10px]">
-        <div className="size-[32px] rounded-full bg-purple-900/50 flex items-center justify-center">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="6" width="18" height="13" rx="3" stroke="#a78bfa" strokeWidth="1.5"/>
-            <circle cx="9" cy="13" r="1.5" fill="#a78bfa"/>
-            <circle cx="15" cy="13" r="1.5" fill="#a78bfa"/>
-            <path d="M8 3v3M16 3v3" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
+        <div className="size-[36px] rounded-full bg-[#7c3aed] flex items-center justify-center text-[18px]">
+          &#129302;
         </div>
         <div>
-          <p className="font-['Atyp_BL:Bold',sans-serif] text-[16px] text-white leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>AI Agent</p>
-          <p className="font-['Atyp_BL:Medium',sans-serif] text-[12px] text-[#4ade80] leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>Autonomous setup</p>
+          <p className="font-['Atyp_BL:Bold',sans-serif] text-[18px] text-white leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>AI Agent</p>
+          <p className="font-['Atyp_BL:Medium',sans-serif] text-[12px] text-[#a78bfa] leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>Autonomous setup</p>
         </div>
       </div>
 
       {/* Description */}
-      <p className="font-['Atyp_BL:Medium',sans-serif] text-[14px] text-white/80 leading-[1.5]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+      <p className="font-['Atyp_BL:Medium',sans-serif] text-[14px] text-white/70 leading-[1.5]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
         Read the onboarding skill to understand Orderly&apos;s capabilities:
       </p>
 
       {/* URL box */}
-      <button
-        onClick={handleCopy}
-        className="bg-[#1e2026] rounded-[10px] px-[14px] py-[12px] flex items-center justify-between cursor-pointer border border-white/5 w-full"
-      >
-        <span className="font-['DM_Mono:Medium',sans-serif] text-[14px] text-white/70">
+      <div className="relative group rounded-[10px] px-[14px] py-[12px]" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+        <a href={url} target="_blank" rel="noopener noreferrer" className="font-['DM_Mono:Medium',sans-serif] text-[14px] text-[#a78bfa] no-underline">
           orderly.network/skill.md
-        </span>
-        <span className="font-['Atyp_BL:Bold',sans-serif] text-[12px] text-white/60">
+        </a>
+        <button
+          onClick={handleCopy}
+          className="absolute right-[8px] top-[8px] p-[6px] rounded-[6px] cursor-pointer"
+          style={{ background: "rgba(255,255,255,0.1)" }}
+        >
           {copied ? (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          ) : "Copy"}
-        </span>
-      </button>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          )}
+        </button>
+      </div>
 
       {/* Why callout */}
-      <div className="bg-purple-900/20 border border-purple-500/20 rounded-[10px] px-[14px] py-[12px]">
-        <p className="font-['Atyp_BL:Medium',sans-serif] text-[13px] text-white/80 leading-[1.6]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-          <span className="font-['Atyp_BL:Bold',sans-serif] text-white">Why?</span>{" "}
+      <div className="rounded-[10px] px-[14px] py-[12px]" style={{ background: "rgba(168,85,247,0.1)", border: "1px solid rgba(168,85,247,0.3)" }}>
+        <p className="font-['Atyp_BL:Medium',sans-serif] text-[13px] text-[#c4b5fd] leading-[1.6]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+          <strong className="text-white">Why?</strong>{" "}
           This skill contains comprehensive documentation about Orderly&apos;s API, SDK, trading workflows, and best practices for agents.
         </p>
       </div>
@@ -1254,7 +1255,47 @@ const QS_CLIENTS = [
   { id: "opencode", label: "Opencode", mode: "one-liner" as const, command: "npx @orderly.network/mcp-server init --client opencode" },
 ];
 
+const SKILLS_COMMANDS_MOBILE = [
+  { comment: "# Install all skills globally", cmd: "npx skills add OrderlyNetwork/skills --all -g" },
+  { comment: "# Install specific skill", cmd: "npx skills add OrderlyNetwork/skills --skill orderly-trading-orders" },
+  { comment: "# Install for all agents", cmd: "npx skills add OrderlyNetwork/skills --all --agent '*' -g" },
+];
+
+function MobileSkillsCodeBlock({ comment, cmd }: { comment: string; cmd: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const textarea = document.createElement('textarea');
+    textarea.value = cmd;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try { document.execCommand('copy'); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
+    document.body.removeChild(textarea);
+  };
+  return (
+    <div className="bg-[#14151a] rounded-[10px] px-[14px] py-[12px] flex flex-col gap-[4px] relative" onClick={handleCopy}>
+      <p className="font-['DM_Mono:Regular',sans-serif] text-[12px] text-[#5e6673] leading-[1.5]">{comment}</p>
+      <p className="font-['DM_Mono:Regular',sans-serif] text-[12px] text-white leading-[1.5] break-all">
+        <span className="text-white/60">$ </span>
+        <span className="text-[#22d3ee]">npx</span>
+        <span className="text-white"> skills add </span>
+        <span className="text-[#fbbf24]">{cmd.split("add ")[1]}</span>
+      </p>
+      {copied && (
+        <div className="absolute right-[8px] top-[8px]">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M5 13l4 4L19 7" stroke="#9c75ff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function QuickStartSection() {
+  const [devTab, setDevTab] = useState<"mcp-server" | "skills">("mcp-server");
   const [activeIdx, setActiveIdx] = useState(0);
   const [copied, setCopied] = useState(false);
   const active = QS_CLIENTS[activeIdx];
@@ -1292,13 +1333,14 @@ function QuickStartSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLElement | null)[]>([]);
 
-  // Scroll so selected tab aligns to the left edge of the scroll container
   useEffect(() => {
     const el = tabRefs.current[activeIdx];
     if (el && scrollRef.current) {
       scrollRef.current.scrollTo({ left: el.offsetLeft, behavior: 'smooth' });
     }
   }, [activeIdx]);
+
+  const featureSettings = { fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" } as const;
 
   return (
     <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full" data-name="Quick Start Section">
@@ -1307,127 +1349,96 @@ function QuickStartSection() {
       {/* AI Agent card */}
       <MobileAIAgentCard />
 
-      {/* Developer / MCP Server card */}
-      <div className="content-stretch flex flex-col items-start relative shrink-0 w-[333px]">
-
-        {/* ── tab bar ── */}
-        <div className="bg-[#14151a] h-[98.461px] relative rounded-tl-[30px] rounded-tr-[30px] shrink-0 w-full">
-          <div className="flex flex-row items-center size-full">
-            <div className="content-stretch flex gap-[8px] items-center p-[20px] relative size-full">
-
-              {/* Fixed "One-Liner" label when a client is selected */}
-              {!isInteractive && (
-                <p
-                  onClick={(e) => pickTab(e, 0)}
-                  className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap cursor-pointer"
-                  style={{ opacity: 0.6 }}
-                >
-                  One-Liner
-                </p>
-              )}
-
-              {/* Scrollable tabs — all in natural order, selected one gets purple pill */}
-              <div
-                ref={scrollRef}
-                className="flex flex-[1_0_0] items-center gap-[20px] min-h-px min-w-px relative overflow-x-auto hide-scrollbar"
-              >
-                {QS_CLIENTS.map((c, i) => {
-                  // In client mode, skip the "Interactive" tab (shown as "One-Liner" label above)
-                  if (!isInteractive && i === 0) return null;
-                  const isActive = i === activeIdx;
-                  return isActive ? (
-                    <div
-                      key={c.id}
-                      ref={(el) => { tabRefs.current[i] = el; }}
-                      onClick={(e) => pickTab(e, i)}
-                      className="bg-[#6700ce] content-stretch flex h-[47.305px] items-center justify-center px-[17px] py-[8px] relative rounded-[8px] shrink-0 cursor-pointer"
-                    >
-                      <p className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">{c.label}</p>
-                    </div>
-                  ) : (
-                    <p
-                      key={c.id}
-                      ref={(el) => { tabRefs.current[i] = el; }}
-                      onClick={(e) => pickTab(e, i)}
-                      className="font-['DM_Mono:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap cursor-pointer"
-                      style={{ opacity: 0.65 }}
-                    >
-                      {c.label}
-                    </p>
-                  );
-                })}
-              </div>
-
-              {/* arrow → next client */}
-              <div onClick={advance} className="content-stretch flex flex-col items-end relative shrink-0 cursor-pointer">
-                <div className="flex items-center justify-center relative shrink-0">
-                  <div className="flex-none rotate-180">
-                    <div className="h-[42.667px] relative w-[44.667px]">
-                      <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 44.6667 42.6667">
-                        <g>
-                          <path d={svgPaths.p10be0e00} fill="var(--fill-0, #3F0086)" />
-                          <path d={svgPaths.p16992700} fill="var(--fill-0, #3F0086)" />
-                          <path d={svgPaths.p180d8980} stroke="var(--stroke-0, #3F0086)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" />
-                          <path d={svgPaths.p344fa9e0} stroke="var(--stroke-0, white)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" />
-                        </g>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+      {/* Developer card */}
+      <div className="rounded-[16px] p-[24px] flex flex-col gap-[20px] w-full" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+        {/* Card header */}
+        <div className="flex items-center gap-[10px]">
+          <div className="size-[36px] rounded-full bg-[#374151] flex items-center justify-center text-[18px]">
+            &#128100;
+          </div>
+          <div>
+            <p className="font-['Atyp_BL:Bold',sans-serif] text-[18px] text-white leading-[1.3]" style={featureSettings}>Developer</p>
+            <p className="font-['Atyp_BL:Medium',sans-serif] text-[12px] text-white/40 leading-[1.3]" style={featureSettings}>Manual installation</p>
           </div>
         </div>
 
-        {/* ── command body ── */}
-        <div className="bg-[#1e2026] relative rounded-bl-[30px] rounded-br-[30px] shrink-0 w-full">
-          <div className="content-stretch flex flex-col items-start px-[20px] py-[30px] relative w-full">
-            <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
+        {/* Description */}
+        <p className="font-['Atyp_BL:Medium',sans-serif] text-[14px] text-white/70 leading-[1.5]" style={featureSettings}>
+          Install Orderly&apos;s agentic tools for your AI client:
+        </p>
 
-              {active.mode === "interactive" ? (
-                <div className="content-stretch flex flex-[1_0_0] flex-col font-['DM_Mono:Regular',sans-serif] gap-[20px] items-start leading-[normal] min-h-px min-w-px not-italic relative text-[16px]">
-                  <p className="relative shrink-0 text-[#5e6673] w-full">{active.subtext}</p>
-                  <p className="relative shrink-0 text-white w-full">$ {active.command}</p>
-                </div>
-              ) : (
-                <div className="content-stretch flex flex-col h-[146px] items-start relative shrink-0 w-[240px]">
-                  <div className="flex flex-col font-['DM_Mono:Regular',sans-serif] h-[146px] justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-white w-full">
-                    <p className="leading-[normal]">$ {active.command}</p>
-                  </div>
-                </div>
-              )}
-
-              {/* copy icon */}
-              <div
-                onClick={copyCmd}
-                data-name="Quick Start Icon Container"
-                className="content-stretch flex h-[40px] items-center justify-center p-[8px] relative rounded-[8px] shrink-0 w-[39.324px] cursor-pointer transition-colors"
-                style={{ background: copied ? "rgba(103,0,206,0.35)" : "rgba(255,255,255,0.1)" }}
-                title={copied ? "Copied!" : "Copy command"}
-              >
-                {copied ? (
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 13l4 4L19 7" stroke="#9c75ff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                ) : (
-                  <div className="h-[24px] relative shrink-0 w-[23.594px]" data-name="content_copy">
-                    <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 23.5945 24">
-                      <mask id="mask_qs_copy" maskUnits="userSpaceOnUse" style={{ maskType: "alpha" }} width="24" height="24" x="0" y="0">
-                        <rect fill="#D9D9D9" height="24" width="23.5945" />
-                      </mask>
-                      <g mask="url(#mask_qs_copy)">
-                        <path d={svgPaths.p3775a80} fill="white" />
-                      </g>
-                    </svg>
-                  </div>
-                )}
-              </div>
-
-            </div>
-          </div>
+        {/* MCP Server / Skills tabs */}
+        <div className="flex items-center gap-[8px]">
+          <button
+            onClick={(e) => { e.stopPropagation(); setDevTab("mcp-server"); }}
+            className={`font-['Atyp_BL:Medium',sans-serif] text-[14px] px-[14px] py-[6px] rounded-[8px] transition-all ${
+              devTab === "mcp-server" ? "bg-[#7c3aed] text-white" : "text-[#9ca3af]"
+            }`}
+            style={featureSettings}
+          >
+            MCP Server
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); setDevTab("skills"); }}
+            className={`font-['Atyp_BL:Medium',sans-serif] text-[14px] px-[14px] py-[6px] rounded-[8px] transition-all ${
+              devTab === "skills" ? "bg-[#7c3aed] text-white" : "text-[#9ca3af]"
+            }`}
+            style={featureSettings}
+          >
+            Skills
+          </button>
         </div>
 
+        {/* Tab content */}
+        {devTab === "mcp-server" ? (
+          <div className="flex flex-col gap-[12px]">
+            <p className="font-['Atyp_BL:Medium',sans-serif] text-[13px] text-white/60 leading-[1.5]" style={featureSettings}>
+              Install the MCP server for your AI client:
+            </p>
+            {/* Single command */}
+            <div className="relative group rounded-[10px] px-[14px] py-[12px]" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <p className="font-['DM_Mono:Regular',sans-serif] text-[12px] leading-[1.6]">
+                <span className="text-[#6b7280]">$ </span>
+                <span className="text-[#4ade80]">npx</span>{" "}
+                <span className="text-[#60a5fa]">@orderly.network/mcp-server</span>{" "}
+                <span className="text-[#fbbf24]">init</span>{" "}
+                <span className="text-white/40">--client</span>{" "}
+                <span className="text-[#a78bfa]">&lt;name&gt;</span>
+              </p>
+            </div>
+            {/* Client badges */}
+            <div className="flex flex-wrap items-center gap-[6px]">
+              <span className="font-['DM_Mono:Regular',sans-serif] text-[11px] text-[#6b7280]">Supported clients:</span>
+              {(["claude", "cursor", "vscode", "codex", "opencode"] as const).map((c) => (
+                <span key={c} className="font-['DM_Mono:Regular',sans-serif] text-[11px] text-white/70 px-[8px] py-[3px] rounded-[4px]" style={{ background: "rgba(255,255,255,0.05)" }}>
+                  {c}
+                </span>
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* Skills tab */
+          <div className="flex flex-col gap-[12px]">
+            <p className="font-['Atyp_BL:Medium',sans-serif] text-[13px] text-white/60 leading-[1.5]" style={featureSettings}>
+              Install Orderly skills for enhanced agent capabilities:
+            </p>
+            {SKILLS_COMMANDS_MOBILE.map((s) => (
+              <MobileSkillsCodeBlock key={s.comment} comment={s.comment} cmd={s.cmd} />
+            ))}
+            <div className="rounded-[10px] px-[14px] py-[12px] flex flex-col gap-[6px]" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+              <p className="font-['Atyp_BL:Medium',sans-serif] text-[12px] text-white/60 leading-[1.5]" style={featureSettings}>
+                <span className="font-['Atyp_BL:Bold',sans-serif] text-white/80">16 skills available:</span>{" "}
+                API authentication, trading orders, positions, WebSocket streaming, SDK hooks, UI components, wallet connection, and more.
+              </p>
+              <p className="font-['DM_Mono:Regular',sans-serif] text-[11px] text-[#6b7280] leading-[1.5]">
+                <strong className="text-white/50">Flags:</strong>{" "}
+                <span className="text-[#c4b5fd]">--all</span> install all skills{" "}
+                &bull; <span className="text-[#c4b5fd]">-g</span> global install{" "}
+                &bull; <span className="text-[#c4b5fd]">--agent &apos;*&apos;</span> all agents
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
