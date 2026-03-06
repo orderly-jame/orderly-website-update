@@ -1083,7 +1083,7 @@ function TrustedContent() {
 
 function TrustedSection() {
   return (
-    <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[80px] items-start left-[calc(50%-0.11px)] top-[4453px] w-[1302px]" data-name="Trusted Section">
+    <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[80px] items-start left-[calc(50%-0.11px)] top-[4853px] w-[1302px]" data-name="Trusted Section">
       <TrustedHeader />
       <TrustedContent />
     </div>
@@ -1163,7 +1163,7 @@ function Frame6({ onOpenModal }: { onOpenModal: () => void }) {
 
 function Frame1({ onOpenModal }: { onOpenModal: () => void }) {
   return (
-    <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[60px] items-center left-[calc(50%-0.11px)] px-[80px] top-[5110.5px] w-[1440px]" data-name="Frame">
+    <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[60px] items-center left-[calc(50%-0.11px)] px-[80px] top-[5510.5px] w-[1440px]" data-name="Frame">
       <HeroTextContainer1 />
       <Frame6 onOpenModal={onOpenModal} />
     </div>
@@ -1698,7 +1698,7 @@ function Frame10() {
 
 function Footer() {
   return (
-    <div className="-translate-x-1/2 absolute bg-[#6700ce] content-stretch flex flex-col h-[486.978px] items-center left-[calc(50%-0.11px)] rounded-[30px] top-[5944.98px] w-[1302px]" data-name="Footer">
+    <div className="-translate-x-1/2 absolute bg-[#6700ce] content-stretch flex flex-col h-[486.978px] items-center left-[calc(50%-0.11px)] rounded-[30px] top-[6344.98px] w-[1302px]" data-name="Footer">
       <FooterLinksContainer />
       <Frame10 />
     </div>
@@ -1707,7 +1707,7 @@ function Footer() {
 
 function FooterSection() {
   return (
-    <div className="-translate-x-1/2 absolute contents left-[calc(50%-0.11px)] top-[5944.98px]" data-name="Footer Section">
+    <div className="-translate-x-1/2 absolute contents left-[calc(50%-0.11px)] top-[6344.98px]" data-name="Footer Section">
       <Footer />
     </div>
   );
@@ -1774,8 +1774,8 @@ function Group9() {
 
 function Frame11() {
   return (
-    <div className="content-stretch flex flex-col gap-[20px] items-start relative shrink-0">
-      <div className="font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] not-italic relative shrink-0 text-[30px] text-white tracking-[0.3px] whitespace-nowrap" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+    <div className="content-stretch flex flex-col gap-[20px] items-center relative shrink-0">
+      <div className="font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] not-italic relative shrink-0 text-[30px] text-white tracking-[0.3px] whitespace-nowrap text-center" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
         <p className="mb-0">Be the first to hear about launches,</p>
         <p>token listings, and builder updates.</p>
       </div>
@@ -1786,7 +1786,7 @@ function Frame11() {
 
 function Frame12() {
   return (
-    <div className="absolute bg-[#6700ce] content-stretch flex flex-col h-[235.098px] items-start justify-center left-[732.55px] p-[30px] rounded-[30px] top-[5671px] w-[640px]">
+    <div className="absolute bg-[#6700ce] content-stretch flex flex-col h-[235.098px] items-center justify-center left-[68.89px] p-[30px] rounded-[30px] top-[6071px] w-[1302px]">
       <Frame11 />
     </div>
   );
@@ -1983,23 +1983,83 @@ function StatsSection() {
   );
 }
 
-function QuickStartTitleContainer() {
+function AIAgentCard() {
+  const [copied, setCopied] = useState(false);
+  const url = "https://orderly.network/skill.md";
+
+  const handleCopy = () => {
+    const textarea = document.createElement('textarea');
+    textarea.value = url;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+    document.body.removeChild(textarea);
+  };
+
   return (
-    <div className="content-stretch flex flex-col gap-[23px] items-start not-italic relative shrink-0 text-white w-[949px] whitespace-pre-wrap" data-name="Quick Start Title Container">
-      <p className="font-['Atyp_BL:Bold',sans-serif] leading-[1.1] min-w-full relative shrink-0 text-[56px] w-[min-content]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-        Quick Start
+    <div className="bg-[#0c0d10] rounded-[30px] p-[36px] flex flex-col gap-[24px] w-[480px] shrink-0 border border-white/5">
+      {/* Card header */}
+      <div className="flex items-center gap-[12px]">
+        <div className="size-[40px] rounded-full bg-purple-900/50 flex items-center justify-center text-[20px]">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="6" width="18" height="13" rx="3" stroke="#a78bfa" strokeWidth="1.5"/>
+            <circle cx="9" cy="13" r="1.5" fill="#a78bfa"/>
+            <circle cx="15" cy="13" r="1.5" fill="#a78bfa"/>
+            <path d="M8 3v3M16 3v3" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <p className="font-['Atyp_BL:Bold',sans-serif] text-[20px] text-white leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>AI Agent</p>
+          <p className="font-['Atyp_BL:Medium',sans-serif] text-[14px] text-[#4ade80] leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>Autonomous setup</p>
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="font-['Atyp_BL:Medium',sans-serif] text-[18px] text-white/80 leading-[1.5]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+        Read the onboarding skill to understand Orderly&apos;s capabilities:
       </p>
-      <p className="font-['Atyp_BL:Medium',sans-serif] leading-[1.4] relative shrink-0 text-[24px] tracking-[0.504px] w-[1305.965px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-        Install the Orderly MCP Server in seconds.
-      </p>
+
+      {/* URL box */}
+      <button
+        onClick={handleCopy}
+        className="bg-[#1e2026] rounded-[12px] px-[18px] py-[14px] flex items-center justify-between cursor-pointer border border-white/5 hover:border-white/10 transition-colors w-full"
+      >
+        <span className="font-['DM_Mono:Medium',sans-serif] text-[18px] text-white/70">
+          orderly.network/skill.md
+        </span>
+        <span className="font-['Atyp_BL:Bold',sans-serif] text-[14px] text-white/60">
+          {copied ? <CheckSvg /> : "Copy"}
+        </span>
+      </button>
+
+      {/* Why callout */}
+      <div className="bg-purple-900/20 border border-purple-500/20 rounded-[12px] px-[18px] py-[14px]">
+        <p className="font-['Atyp_BL:Medium',sans-serif] text-[16px] text-white/80 leading-[1.6]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+          <span className="font-['Atyp_BL:Bold',sans-serif] text-white">Why?</span>{" "}
+          This skill contains comprehensive documentation about Orderly&apos;s API, SDK, trading workflows, and best practices for agents.
+        </p>
+      </div>
     </div>
   );
 }
 
 function QuickStartHeader() {
   return (
-    <div className="content-stretch flex flex-col items-start relative shrink-0 w-[1302px]" data-name="Quick Start Header">
-      <QuickStartTitleContainer />
+    <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-[1302px]" data-name="Quick Start Header">
+      <p className="font-['Atyp_BL:Bold',sans-serif] leading-[1.1] text-[56px] text-white" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+        Agentic Quick Start
+      </p>
+      <p className="font-['Atyp_BL:Medium',sans-serif] leading-[1.4] text-[24px] text-white/70 tracking-[0.504px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+        Get started with Orderly&apos;s agentic infrastructure
+      </p>
     </div>
   );
 }
@@ -2062,7 +2122,7 @@ function QuickStartIconContainer() {
 
 function QuickStartContent() {
   return (
-    <div className="relative shrink-0" data-name="Quick Start Content">
+    <div className="relative flex-1 min-w-0" data-name="Quick Start Content">
       <QuickStartGroup />
     </div>
   );
@@ -2070,9 +2130,12 @@ function QuickStartContent() {
 
 function QuickStartSection() {
   return (
-    <div className="absolute content-stretch flex flex-col gap-[68px] items-start left-[68.89px] top-[3876px] w-[1321.23px]" data-name="Quick Start Section">
+    <div className="absolute content-stretch flex flex-col gap-[48px] items-center left-[68.89px] top-[3876px] w-[1302px]" data-name="Quick Start Section">
       <QuickStartHeader />
-      <QuickStartContent />
+      <div className="flex gap-[22px] items-start w-full">
+        <AIAgentCard />
+        <QuickStartContent />
+      </div>
     </div>
   );
 }
@@ -3152,8 +3215,6 @@ export default function Frame7() {
       >
         <Frame1 onOpenModal={() => setModalOpen(true)} />
         <Frame12 />
-        <Frame13 />
-        <Frame16 />
       </motion.div>
 
       {/* Footer Section */}
@@ -3164,9 +3225,9 @@ export default function Frame7() {
         transition={{ ...transition, delay: 0.9 }}
       >
         <FooterSection />
-        <a href="https://orderly.network/docs/introduction/terms-of-service" target="_blank" rel="noopener noreferrer" className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1168px] not-italic text-[12px] text-white top-[6454.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity">Terms of Service</a>
-        <a href="https://orderly.network/docs/introduction/privacy-policy" target="_blank" rel="noopener noreferrer" className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1288px] not-italic text-[12px] text-white top-[6454.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity">Privacy Policy</a>
-        <p className="absolute font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] left-[68.89px] not-italic text-[12px] text-white top-[6454.98px] tracking-[0.12px] w-[362px] whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+        <a href="https://orderly.network/docs/introduction/terms-of-service" target="_blank" rel="noopener noreferrer" className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1168px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity">Terms of Service</a>
+        <a href="https://orderly.network/docs/introduction/privacy-policy" target="_blank" rel="noopener noreferrer" className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1288px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity">Privacy Policy</a>
+        <p className="absolute font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] left-[68.89px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] w-[362px] whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
           © 2026 Orderly Network
         </p>
       </motion.div>
@@ -3191,7 +3252,7 @@ const FOOTER_CANVAS_H = 829;
 export function FooterCanvas() {
   return (
     <div style={{ position: "relative", width: 1440, height: FOOTER_CANVAS_H, overflow: "hidden" }}>
-      <div style={{ position: "absolute", top: -FOOTER_OFFSET, left: 0, width: 1440, height: 6500 }}>
+      <div style={{ position: "absolute", top: -FOOTER_OFFSET, left: 0, width: 1440, height: 6900 }}>
         <Frame16 />
         <Frame12 />
         <FooterSection />
@@ -3199,7 +3260,7 @@ export function FooterCanvas() {
           href="https://orderly.network/docs/introduction/terms-of-service"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1168px] not-italic text-[12px] text-white top-[6454.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity"
+          className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1168px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity"
         >
           Terms of Service
         </a>
@@ -3207,12 +3268,12 @@ export function FooterCanvas() {
           href="https://orderly.network/docs/introduction/privacy-policy"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1288px] not-italic text-[12px] text-white top-[6454.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity"
+          className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1288px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity"
         >
           Privacy Policy
         </a>
         <p
-          className="absolute font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] left-[68.89px] not-italic text-[12px] text-white top-[6454.98px] tracking-[0.12px] w-[362px] whitespace-pre-wrap"
+          className="absolute font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] left-[68.89px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] w-[362px] whitespace-pre-wrap"
           style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}
         >
           © 2026 Orderly Network

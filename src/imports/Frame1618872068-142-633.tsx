@@ -568,9 +568,8 @@ function WhySectionCarousel() {
       <div
         ref={scrollRef}
         onScroll={checkScrollPosition}
-        className="overflow-x-auto w-full flex gap-[14px] items-center"
+        className="overflow-x-auto w-full flex gap-[14px] items-center hide-scrollbar"
         data-name="Why Content List"
-        style={{ scrollbarWidth: "none" } as React.CSSProperties}
       >
         <Container />
         <Container1 />
@@ -993,9 +992,8 @@ function BuildSectionCarousel() {
       <div
         ref={scrollRef}
         onScroll={checkScrollPosition}
-        className="overflow-x-auto w-full flex gap-[14px] items-center"
+        className="overflow-x-auto w-full flex gap-[14px] items-center hide-scrollbar"
         data-name="Build Content List"
-        style={{ scrollbarWidth: "none" } as React.CSSProperties}
       >
         <Container6 />
         <Container7 />
@@ -1008,13 +1006,86 @@ function BuildSectionCarousel() {
 
 function QuickStartTitleContainer() {
   return (
-    <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 text-white w-[949px]" data-name="Quick Start Title Container">
-      <p className="font-['Atyp_BL:Bold',sans-serif] leading-[1.1] min-w-full not-italic relative shrink-0 text-[20px] w-[min-content]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-        Quick Start
+    <div className="content-stretch flex flex-col gap-[10px] items-start relative shrink-0 text-white w-full" data-name="Quick Start Title Container">
+      <p className="font-['Atyp_BL:Bold',sans-serif] leading-[1.1] not-italic relative shrink-0 text-[20px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+        Agentic Quick Start
       </p>
-      <p className="font-['Atyp_BL:Display_-_Medium',sans-serif] font-[507] leading-[1.4] relative shrink-0 text-[14px] tracking-[0.294px] w-[1305.965px]" style={{ fontVariationSettings: "'ital' 0, 'opsz' 72", fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-        Install the Orderly MCP Server in seconds.
+      <p className="font-['Atyp_BL:Display_-_Medium',sans-serif] font-[507] leading-[1.4] relative shrink-0 text-[14px] tracking-[0.294px] text-white/70" style={{ fontVariationSettings: "'ital' 0, 'opsz' 72", fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+        Get started with Orderly&apos;s agentic infrastructure
       </p>
+    </div>
+  );
+}
+
+function MobileAIAgentCard() {
+  const [copied, setCopied] = useState(false);
+  const url = "https://orderly.network/skill.md";
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const textarea = document.createElement('textarea');
+    textarea.value = url;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+    document.body.removeChild(textarea);
+  };
+
+  return (
+    <div className="bg-[#0c0d10] rounded-[20px] p-[24px] flex flex-col gap-[16px] w-full border border-white/5">
+      {/* Header */}
+      <div className="flex items-center gap-[10px]">
+        <div className="size-[32px] rounded-full bg-purple-900/50 flex items-center justify-center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="6" width="18" height="13" rx="3" stroke="#a78bfa" strokeWidth="1.5"/>
+            <circle cx="9" cy="13" r="1.5" fill="#a78bfa"/>
+            <circle cx="15" cy="13" r="1.5" fill="#a78bfa"/>
+            <path d="M8 3v3M16 3v3" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <p className="font-['Atyp_BL:Bold',sans-serif] text-[16px] text-white leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>AI Agent</p>
+          <p className="font-['Atyp_BL:Medium',sans-serif] text-[12px] text-[#4ade80] leading-[1.3]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>Autonomous setup</p>
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="font-['Atyp_BL:Medium',sans-serif] text-[14px] text-white/80 leading-[1.5]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+        Read the onboarding skill to understand Orderly&apos;s capabilities:
+      </p>
+
+      {/* URL box */}
+      <button
+        onClick={handleCopy}
+        className="bg-[#1e2026] rounded-[10px] px-[14px] py-[12px] flex items-center justify-between cursor-pointer border border-white/5 w-full"
+      >
+        <span className="font-['DM_Mono:Medium',sans-serif] text-[14px] text-white/70">
+          orderly.network/skill.md
+        </span>
+        <span className="font-['Atyp_BL:Bold',sans-serif] text-[12px] text-white/60">
+          {copied ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : "Copy"}
+        </span>
+      </button>
+
+      {/* Why callout */}
+      <div className="bg-purple-900/20 border border-purple-500/20 rounded-[10px] px-[14px] py-[12px]">
+        <p className="font-['Atyp_BL:Medium',sans-serif] text-[13px] text-white/80 leading-[1.6]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
+          <span className="font-['Atyp_BL:Bold',sans-serif] text-white">Why?</span>{" "}
+          This skill contains comprehensive documentation about Orderly&apos;s API, SDK, trading workflows, and best practices for agents.
+        </p>
+      </div>
     </div>
   );
 }
@@ -1230,9 +1301,13 @@ function QuickStartSection() {
   }, [activeIdx]);
 
   return (
-    <div className="content-stretch flex flex-col gap-[32px] items-start relative shrink-0 w-full" data-name="Quick Start Section">
+    <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-full" data-name="Quick Start Section">
       <QuickStartTitleContainer />
 
+      {/* AI Agent card */}
+      <MobileAIAgentCard />
+
+      {/* Developer / MCP Server card */}
       <div className="content-stretch flex flex-col items-start relative shrink-0 w-[333px]">
 
         {/* ── tab bar ── */}
@@ -1254,8 +1329,7 @@ function QuickStartSection() {
               {/* Scrollable tabs — all in natural order, selected one gets purple pill */}
               <div
                 ref={scrollRef}
-                className="flex flex-[1_0_0] items-center gap-[20px] min-h-px min-w-px relative overflow-x-auto"
-                style={{ scrollbarWidth: 'none' }}
+                className="flex flex-[1_0_0] items-center gap-[20px] min-h-px min-w-px relative overflow-x-auto hide-scrollbar"
               >
                 {QS_CLIENTS.map((c, i) => {
                   // In client mode, skip the "Interactive" tab (shown as "One-Liner" label above)
@@ -2785,7 +2859,6 @@ function Frame50() {
 function Frame43() {
   return (
     <div className="content-stretch flex flex-col gap-[20px] items-start justify-center relative shrink-0 w-[335px] pb-[32px]">
-      <Frame19 />
       <Frame26 />
       <Frame50 />
     </div>

@@ -466,8 +466,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
     [whyCont, buildCont].forEach((el) => {
       if (!el) return;
       el.style.overflowX = "scroll";
-      (el.style as any).scrollbarWidth = "none";
-      (el.style as any).msOverflowStyle = "none";
+      el.classList.add("hide-scrollbar");
       // ── smooth native swipe with scroll-snap ──
       // Use "proximity" instead of "mandatory" so the browser doesn't lock the
       // scroll axis during horizontal swipes, which would block vertical scrolling.
