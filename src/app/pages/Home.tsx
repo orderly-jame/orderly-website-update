@@ -101,7 +101,7 @@ function ScaledFrame({
 }
 
 export default function Home() {
-  const [viewport, setViewport] = useState<"mobile" | "tablet" | "desktop">("desktop");
+  const [viewport, setViewport] = useState<"mobile" | "desktop">("desktop");
   const [navOpen,  setNavOpen]  = useState(false);
 
   const handleOpenNav  = useCallback(() => setNavOpen(true), []);
@@ -110,8 +110,7 @@ export default function Home() {
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
-      if (w < 640) setViewport("mobile");
-      else if (w < 1024) setViewport("tablet");
+      if (w < 1024) setViewport("mobile");
       else setViewport("desktop");
     };
     handleResize();
@@ -120,10 +119,10 @@ export default function Home() {
   }, []);
 
   // Desktop & tablet: pixel-perfect ScaledFrame of the 1440 px Figma canvas
-  if (viewport === "desktop" || viewport === "tablet") {
+  if (viewport === "desktop") {
     return (
       <div style={{ width: "100%", overflowX: "hidden", background: "#000", display: "flex", justifyContent: "center" }}>
-        <div style={{ width: "100%", maxWidth: "1200px" }}>
+        <div style={{ width: "100%", maxWidth: "1440px" }}>
           <ScaledFrame cap>
             <Frame7 />
           </ScaledFrame>
@@ -137,7 +136,7 @@ export default function Home() {
   // is always relative to the true viewport (no stacking-context interference).
   return (
     <div style={{ width: "100vw", overflowX: "hidden", background: "#000" }}>
-      <ScaledFrame designWidth={MOBILE_DESIGN_WIDTH} autoHeight>
+      <ScaledFrame designWidth={MOBILE_DESIGN_WIDTH} autoHeight cap>
         <MobileHomePage onMenuClick={handleOpenNav} />
       </ScaledFrame>
 
