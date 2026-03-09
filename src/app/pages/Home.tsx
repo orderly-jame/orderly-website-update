@@ -92,6 +92,7 @@ function ScaledFrame({
           flexShrink: 0,
           transformOrigin: "top left",
           transform: `scale(${scale})`,
+          willChange: "transform",
         }}
       >
         {children}
