@@ -9,7 +9,7 @@ const CheckSvg = () => (
   </svg>
 );
 import { AnimatedNumber } from "@/app/components/AnimatedNumber";
-import { useOrderlyStats, formatLargeNumber } from "@/app/hooks/useOrderlyStats";
+import { useOrderlyStats, formatLargeNumber, formatCount } from "@/app/hooks/useOrderlyStats";
 import svgPaths from "./svg-4hybjba00c";
 const imgMacBook11 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQI12NgAAIABQABNjN9GQAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAA0lEQVQI12P4z8BQDwAEgAF/pooBPQAAAABJRU5ErkJggg==";
 const imgWhyIconContainer3 = "/images/deep-liquidity.png";
@@ -292,27 +292,24 @@ function Frame42({ formatVolume, volumeValue, formatInteger, chainsValue }: { fo
   );
 }
 
-function Frame47({ stats, formatTvl, formatVolume, formatInteger }: { stats: any; formatTvl: (v: number) => string; formatVolume: (v: number) => string; formatInteger: (v: number) => string }) {
+const formatInteger = (v: number) => `${Math.round(v)}`;
+
+function MobileStatItem({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="content-stretch flex gap-[16px] items-start justify-center relative shrink-0">
-      <Frame37 formatTvl={formatTvl} tvlValue={stats.tvl} formatInteger={formatInteger} buildersValue={stats.liveBuilders} />
-      <div className="flex h-[111.694px] items-center justify-center relative shrink-0 w-0" style={{ "--transform-inner-width": "1200", "--transform-inner-height": "19" } as React.CSSProperties}>
-        <div className="flex-none rotate-90">
-          <div className="h-0 relative w-[111.694px]">
-            <div className="absolute inset-[-0.75px_0_0_0]">
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 111.694 0.746332">
-                <line id="Line 9" stroke="var(--stroke-0, #9C75FF)" strokeWidth="0.746332" x2="111.694" y1="0.373166" y2="0.373166" />
-              </svg>
-            </div>
-          </div>
-        </div>
+    <div className="content-stretch flex flex-col gap-[4px] items-center justify-center text-center text-white">
+      <p className="font-['Atyp_BL:Display_-_Medium',sans-serif] font-[507] leading-[1.3] text-[11px] tracking-[-0.1166px]" style={{ fontVariationSettings: "'ital' 0, 'opsz' 72", fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
+        {label}
+      </p>
+      <div className="capitalize flex flex-col font-['Atyp_BL:Display_-_SemiBold',sans-serif] font-[612] justify-center leading-[0] text-[20px] whitespace-nowrap" style={{ fontVariationSettings: "'ital' 0, 'opsz' 72", fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
+        <p className="leading-none">{children}</p>
       </div>
-      <Frame42 formatVolume={formatVolume} volumeValue={stats.tradingVolume} formatInteger={formatInteger} chainsValue={stats.chains} />
     </div>
   );
 }
 
-const formatInteger = (v: number) => `${Math.round(v)}+`;
+function MobileStatsDividerV() {
+  return <div className="self-stretch w-[0.75px] bg-[#9C75FF] opacity-70 shrink-0" />;
+}
 
 function StatsSection() {
   const stats = useOrderlyStats();
@@ -320,8 +317,33 @@ function StatsSection() {
   const formatVolume = useCallback((v: number) => formatLargeNumber(v), []);
 
   return (
-    <div className="bg-[#6700ce] content-stretch flex flex-col items-center py-[20px] relative rounded-[11.195px] shrink-0 w-[335px]" data-name="Stats Section">
-      <Frame47 stats={stats} formatTvl={formatTvl} formatVolume={formatVolume} formatInteger={formatInteger} />
+    <div className="bg-[#6700ce] content-stretch flex items-stretch py-[20px] px-[12px] relative rounded-[11.195px] shrink-0 w-[335px]" data-name="Stats Section">
+      <div className="flex flex-1 flex-col items-center justify-center gap-[20px]">
+        <MobileStatItem label="Total Volume">
+          <AnimatedNumber value={stats.totalVolume} format={formatVolume} />
+        </MobileStatItem>
+        <MobileStatItem label="TVL">
+          <AnimatedNumber value={stats.tvl} format={formatTvl} />
+        </MobileStatItem>
+      </div>
+      <MobileStatsDividerV />
+      <div className="flex flex-1 flex-col items-center justify-center gap-[20px]">
+        <MobileStatItem label="24h Volume">
+          <AnimatedNumber value={stats.tradingVolume} format={formatVolume} />
+        </MobileStatItem>
+        <MobileStatItem label="Open Interest">
+          <AnimatedNumber value={stats.openInterest} format={formatVolume} />
+        </MobileStatItem>
+      </div>
+      <MobileStatsDividerV />
+      <div className="flex flex-1 flex-col items-center justify-center gap-[20px]">
+        <MobileStatItem label="Live Builders">
+          <AnimatedNumber value={stats.liveBuilders} format={formatInteger} />
+        </MobileStatItem>
+        <MobileStatItem label="Chains">
+          <AnimatedNumber value={stats.chains} format={formatInteger} />
+        </MobileStatItem>
+      </div>
     </div>
   );
 }
@@ -568,8 +590,9 @@ function WhySectionCarousel() {
       <div
         ref={scrollRef}
         onScroll={checkScrollPosition}
-        className="overflow-x-auto w-full flex gap-[14px] items-center hide-scrollbar"
+        className="overflow-x-auto flex gap-[14px] items-center hide-scrollbar"
         data-name="Why Content List"
+        style={{ width: "calc(100% + 40px)", marginLeft: "-20px", paddingLeft: "20px", scrollPaddingLeft: "20px" }}
       >
         <Container />
         <Container1 />
@@ -800,7 +823,7 @@ function Frame23() {
   return (
     <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
       <p className="flex-[1_0_0] font-['Atyp_BL:Bold',sans-serif] leading-[1.1] min-h-px min-w-px not-italic relative text-[20px] text-white" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-        What you can build
+        On Orderly
       </p>
       <Frame24 />
     </div>
@@ -873,6 +896,36 @@ function Container7() {
   );
 }
 
+function BuildButtonContainerVaults() {
+  return (
+    <a href="http://app.orderly.network/vaults" target="_blank" rel="noopener noreferrer" className="content-stretch flex gap-[4.203px] items-end justify-end relative shrink-0 w-full no-underline hover:opacity-80 transition-opacity" data-name="Build Button Container">
+      <p className="font-['Atyp_BL:Bold',sans-serif] leading-none not-italic relative shrink-0 text-[14px] text-white tracking-[0.14px] whitespace-nowrap" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06', 'liga' 0" }}>Vaults</p>
+      <div className="flex items-center justify-center relative shrink-0">
+        <div className="-scale-y-100 flex-none rotate-180">
+          <div className="overflow-clip relative size-[9.607px]" data-name="Build Button Icon">
+            <div className="absolute inset-[10.42%]" data-name="Union">
+              <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 7.57227 7.57324">
+                <path d={svgPaths.p10472e00} fill="var(--fill-0, white)" id="Union" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function ContainerVaults() {
+  return (
+    <div className="bg-[#3f0086] content-stretch flex flex-col gap-[130.29px] h-[290px] items-start overflow-clip p-[21.014px] relative rounded-[18.012px] shrink-0 w-[240px]" data-name="Container">
+      <p className="font-['Atyp_BL:Display_-_SemiBold',sans-serif] font-[612] h-[103.872px] leading-[1.2] relative shrink-0 text-[24px] text-white w-full" style={{ fontVariationSettings: "'ital' 0, 'opsz' 72", fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
+        Earn with Vaults
+      </p>
+      <BuildButtonContainerVaults />
+    </div>
+  );
+}
+
 function BuildButtonContainer2() {
   return (
     <a href="https://orderly.network/listing/" target="_blank" rel="noopener noreferrer" className="content-stretch flex gap-[4.203px] items-end justify-end relative shrink-0 w-full no-underline hover:opacity-80 transition-opacity" data-name="Build Button Container">
@@ -896,7 +949,7 @@ function BuildButtonContainer2() {
 
 function Container8() {
   return (
-    <div className="bg-[#3f0086] content-stretch flex flex-col gap-[130.29px] h-[290px] items-start overflow-clip p-[21.014px] relative rounded-[18.012px] shrink-0 w-[240px]" data-name="Container">
+    <div className="bg-[#6700ce] content-stretch flex flex-col gap-[130.29px] h-[290px] items-start overflow-clip p-[21.014px] relative rounded-[18.012px] shrink-0 w-[240px]" data-name="Container">
       <p className="font-['Atyp_BL:Display_-_SemiBold',sans-serif] font-[612] h-[103.872px] leading-[1.2] relative shrink-0 text-[24px] text-white w-full" style={{ fontVariationSettings: "'ital' 0, 'opsz' 72", fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
         List your token
       </p>
@@ -928,7 +981,7 @@ function BuildButtonContainer3() {
 
 function Container9() {
   return (
-    <div className="bg-[#6700ce] content-stretch flex flex-col gap-[130.29px] h-[290px] items-start overflow-clip p-[21.014px] relative rounded-[18.012px] shrink-0 w-[240px]" data-name="Container">
+    <div className="bg-[#3f0086] content-stretch flex flex-col gap-[130.29px] h-[290px] items-start overflow-clip p-[21.014px] relative rounded-[18.012px] shrink-0 w-[240px]" data-name="Container">
       <p className="font-['Atyp_BL:Display_-_SemiBold',sans-serif] font-[612] h-[103.872px] leading-[1.2] relative shrink-0 text-[24px] text-white w-full" style={{ fontVariationSettings: "'ital' 0, 'opsz' 72", fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
         Building trading tools
       </p>
@@ -942,6 +995,7 @@ function BuildContentList() {
     <div className="content-stretch flex gap-[14px] items-center relative shrink-0 w-[335px]" data-name="Build Content List">
       <Container6 />
       <Container7 />
+      <ContainerVaults />
       <Container8 />
       <Container9 />
     </div>
@@ -977,7 +1031,7 @@ function BuildSectionCarousel() {
       {/* Header row: title left, arrows right — clicks handled by MobileHomePage event delegation */}
       <div className="flex items-center justify-between w-full">
         <p className="flex-[1_0_0] font-['Atyp_BL:Bold',sans-serif] leading-[1.1] min-h-px min-w-px not-italic relative text-[20px] text-white" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-          What you can build
+          On Orderly
         </p>
         <div className="flex gap-[10px] items-center">
           <ArrowLeftCircle1 isEnabled={canScrollLeft} />
@@ -992,11 +1046,13 @@ function BuildSectionCarousel() {
       <div
         ref={scrollRef}
         onScroll={checkScrollPosition}
-        className="overflow-x-auto w-full flex gap-[14px] items-center hide-scrollbar"
+        className="overflow-x-auto flex gap-[14px] items-center hide-scrollbar"
         data-name="Build Content List"
+        style={{ width: "calc(100% + 40px)", marginLeft: "-20px", paddingLeft: "20px", scrollPaddingLeft: "20px" }}
       >
         <Container6 />
         <Container7 />
+        <ContainerVaults />
         <Container8 />
         <Container9 />
       </div>
@@ -2507,7 +2563,7 @@ function Frame10() {
 
   const links = [
     { label: "Live DEXs", href: "https://dex.orderly.network/board/" },
-    { label: "Dashboard", href: "https://orderly-dashboard.orderly.network/" },
+    { label: "Dashboard", href: "https://dashboard.orderly.network" },
     { label: "API", href: "https://orderly.network/docs/build-on-omnichain/evm-api/introduction" },
     { label: "Explorer", href: "https://explorer.orderly.network/" },
     { label: "Campaigns", href: "https://app.orderly.network/campaigns" },

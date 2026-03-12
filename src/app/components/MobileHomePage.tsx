@@ -20,7 +20,7 @@ import { useNewsletterSubscribe } from "@/app/hooks/useNewsletterSubscribe";
 import Frame40 from "../../imports/Frame1618872068-142-633";
 
 // ── Desktop modals — single source of truth, reused on mobile ───────────────
-import { BuyOrderModal } from "../../imports/Frame1618872018";
+import { BuyOrderModal, PartnershipFormModal } from "../../imports/Frame1618872018";
 
 // ── Mobile icon paths (same file Frame40 uses for Brandmark) ─────────────────
 import svgPathsMobile from "../../imports/svg-4hybjba00c";
@@ -452,10 +452,16 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
   const [copiedToast, setCopiedToast] = useState(false);
   const [footerSheet, setFooterSheet] = useState<string | null>(null);
   const [buyOrderOpen, setBuyOrderOpen] = useState(false);
+  const [partnershipModalOpen, setPartnershipModalOpen] = useState(false);
 
   // ── carousel index state ─────────────────────────────────────────────────
   const [whyIdx, setWhyIdx] = useState(0);
   const [buildIdx, setBuildIdx] = useState(0);
+  // Flags that suppress scroll-listener index sync while a programmatic scrollTo is in flight.
+  // Without these, the scroll event fires mid-animation with an intermediate scrollLeft,
+  // setWhyIdx gets the old index, the useEffect calls scrollTo back, and the scroll fights itself.
+  const whyProgrammaticRef = useRef(false);
+  const buildProgrammaticRef = useRef(false);
 
   /* ── enable horizontal scroll on carousels ── */
   useEffect(() => {
@@ -471,9 +477,15 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       // Use "proximity" instead of "mandatory" so the browser doesn't lock the
       // scroll axis during horizontal swipes, which would block vertical scrolling.
       (el.style as any).scrollSnapType = "x proximity";
-      // Tell the browser this container handles horizontal panning — eliminates
-      // gesture disambiguation delay and prevents conflict with page scroll.
-      el.style.touchAction = "pan-x";
+      // pan-x pan-y: browser detects dominant swipe direction.
+      // Horizontal → carousel scrolls. Vertical → passes through to page scroll
+      // (the carousel has no vertical overflow so the browser escalates to the
+      // nearest scrollable ancestor, i.e. the document). Using just "pan-x" would
+      // block vertical page scrolling for any gesture that starts over the carousel.
+      el.style.touchAction = "pan-x pan-y";
+      // Contain horizontal overscroll so reaching the carousel edge doesn't
+      // accidentally trigger a page-level horizontal scroll or bounce effect.
+      (el.style as any).overscrollBehaviorX = "contain";
       // iOS momentum scrolling (still improves feel on older Safari versions).
       (el.style as any).webkitOverflowScrolling = "touch";
       // snap each direct child card to the start
@@ -487,6 +499,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
     let whyRaf = 0;
     let buildRaf = 0;
     const onWhyScroll = () => {
+      if (whyProgrammaticRef.current) return;
       cancelAnimationFrame(whyRaf);
       whyRaf = requestAnimationFrame(() => {
         if (!whyCont) return;
@@ -494,6 +507,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       });
     };
     const onBuildScroll = () => {
+      if (buildProgrammaticRef.current) return;
       cancelAnimationFrame(buildRaf);
       buildRaf = requestAnimationFrame(() => {
         if (!buildCont) return;
@@ -539,13 +553,25 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
   /* ── scroll Why carousel ── */
   useEffect(() => {
     const el = wrapperRef.current?.querySelector('[data-name="Why Content List"]') as HTMLElement | null;
-    el?.scrollTo({ left: whyIdx * WHY_CARD_STEP, behavior: "smooth" });
+    if (!el) return;
+    const target = whyIdx * WHY_CARD_STEP;
+    if (el.scrollLeft === target) return;
+    whyProgrammaticRef.current = true;
+    el.scrollTo({ left: target, behavior: "smooth" });
+    const t = setTimeout(() => { whyProgrammaticRef.current = false; }, 600);
+    return () => clearTimeout(t);
   }, [whyIdx]);
 
   /* ── scroll Build carousel ── */
   useEffect(() => {
     const el = wrapperRef.current?.querySelector('[data-name="Build Content List"]') as HTMLElement | null;
-    el?.scrollTo({ left: buildIdx * BUILD_CARD_STEP, behavior: "smooth" });
+    if (!el) return;
+    const target = buildIdx * BUILD_CARD_STEP;
+    if (el.scrollLeft === target) return;
+    buildProgrammaticRef.current = true;
+    el.scrollTo({ left: target, behavior: "smooth" });
+    const t = setTimeout(() => { buildProgrammaticRef.current = false; }, 600);
+    return () => clearTimeout(t);
   }, [buildIdx]);
 
   /* ── direct native listeners for hero CTAs (bypasses synthetic event bubbling) ── */
@@ -592,7 +618,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       if (el.getAttribute("data-name") === "Build Content List") return "build";
       const text = el.textContent ?? "";
       if (text.includes("Why Orderly?")) return "why";
-      if (text.includes("What you can build")) return "build";
+      if (text.includes("On Orderly")) return "build";
       el = el.parentElement;
     }
     return null;
@@ -659,7 +685,7 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       // Talk to Partnerships
       if (name === "Trade on Orderly") {
         e.preventDefault();
-        window.location.href = `mailto:midoji@orderly.network?subject=${encodeURIComponent("Partnership Inquiry from Orderly Website")}&body=${encodeURIComponent("First Name:\nLast Name:\nEmail:\nTelegram ID:\nCompany / Project:\nMessage:\n")}`;
+        setPartnershipModalOpen(true);
         return;
       }
 
@@ -757,6 +783,13 @@ export function MobileHomePage({ onMenuClick }: { onMenuClick?: () => void } = {
       <AnimatePresence>
         {buyOrderOpen && (
           <BuyOrderModal onClose={() => setBuyOrderOpen(false)} />
+        )}
+      </AnimatePresence>
+
+      {/* ── Partnership Form modal — exact same component as desktop ── */}
+      <AnimatePresence>
+        {partnershipModalOpen && (
+          <PartnershipFormModal onClose={() => setPartnershipModalOpen(false)} />
         )}
       </AnimatePresence>
 

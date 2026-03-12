@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { motion } from "motion/react";
-import { useOrderlyStats, formatLargeNumber } from "@/app/hooks/useOrderlyStats";
+import { useOrderlyStats, formatLargeNumber, formatCount } from "@/app/hooks/useOrderlyStats";
 import { AnimatedNumber } from "@/app/components/AnimatedNumber";
 import { useNewsletterSubscribe } from "@/app/hooks/useNewsletterSubscribe";
 // Lightweight inline check icon (replaces heavy MUI Check)
@@ -33,8 +33,9 @@ const raydiumLogoSrc = "/images/svg/RaydiumLogo.svg";
 const woofiLogoSrc = "/images/svg/WOOFiLogo.svg";
 
 // ─── Buy ORDER Modal ──────────────────────────────────────────────────────────
-const fontRegularBuy = { fontFamily: "'Atyp BL', 'Atyp_BL:Regular', sans-serif" };
-const fontMediumBuy = { fontFamily: "'Atyp BL', 'Atyp_BL:Medium', sans-serif" };
+// Use Adobe Fonts Typekit font: atyp-bl-variable (weight range: 280-700)
+const fontRegularBuy = { fontFamily: "'atyp-bl-variable', 'Atyp BL', sans-serif", fontWeight: 400 };
+const fontMediumBuy = { fontFamily: "'atyp-bl-variable', 'Atyp BL', sans-serif", fontWeight: 500 };
 
 // ── Chain network badges ────────────────────────────────────────────────────
 function EthBadge() {
@@ -106,7 +107,7 @@ export function BuyOrderModal({ onClose }: { onClose: () => void }) {
         {/* Header */}
         <div className="flex items-start justify-between px-[28px] pt-[28px] pb-[20px]">
           <div>
-            <h2 className="text-[24px] text-white tracking-[0.24px]" style={{ fontFamily: "'Atyp BL', sans-serif", fontWeight: 700 }}>
+            <h2 className="text-[24px] text-white tracking-[0.24px]" style={{ fontFamily: "'atyp-bl-variable', 'Atyp BL', sans-serif", fontWeight: 700 }}>
               Buy ORDER
             </h2>
             <p className="text-[13px] text-[#9c9fae] mt-[4px] tracking-[0.13px]" style={fontRegularBuy}>
@@ -165,6 +166,318 @@ export function BuyOrderModal({ onClose }: { onClose: () => void }) {
 
         {/* Bottom padding */}
         <div className="pb-[12px]" />
+      </motion.div>
+    </motion.div>,
+    document.body
+  );
+}
+
+// ─── Partnership Form Modal ───────────────────────────────────────────────────
+// Use Adobe Fonts Typekit font: atyp-bl-variable (weight range: 280-700)
+const fontRegularPartnership = { fontFamily: "'atyp-bl-variable', 'Atyp BL', sans-serif", fontWeight: 400 };
+const fontMediumPartnership = { fontFamily: "'atyp-bl-variable', 'Atyp BL', sans-serif", fontWeight: 500 };
+const fontBoldPartnership = { fontFamily: "'atyp-bl-variable', 'Atyp BL', sans-serif", fontWeight: 700 };
+
+export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    telegramId: '',
+    companyProject: '',
+    message: '',
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
+
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First Name is required';
+    }
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last Name is required';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+      }
+    }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/partnerships', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          telegramId: formData.telegramId,
+          companyProject: formData.companyProject,
+          message: formData.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setStatusMessage(data.message || 'Your inquiry has been submitted successfully!');
+        // Clear form after successful submission
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          telegramId: '',
+          companyProject: '',
+          message: '',
+        });
+      } else {
+        setSubmitStatus('error');
+        setStatusMessage(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setSubmitStatus('error');
+      setStatusMessage('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const inputClassName = (fieldName: string) => `
+    w-full px-[16px] py-[14px] rounded-[12px] border bg-[#1a1b20] text-white text-[15px] transition-all duration-200
+    focus:outline-none focus:ring-2 focus:ring-[#9c75ff]/50 focus:border-[#9c75ff]
+    placeholder:text-[#5a5d6e]
+    ${errors[fieldName] ? 'border-red-500' : 'border-white/10 hover:border-white/20'}
+  `;
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-[16px]"
+      style={{ backgroundColor: "rgba(0,0,0,0.85)" }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.94, y: 12 }}
+        transition={{ duration: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
+        className="relative bg-[#14151a] rounded-[24px] w-full max-w-[520px] max-h-[90vh] overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Scrollable content */}
+        <div className="overflow-y-auto max-h-[90vh]">
+          {/* Header */}
+          <div className="flex items-start justify-between px-[28px] pt-[28px] pb-[20px] sticky top-0 bg-[#14151a] z-10">
+            <div>
+              <h2 className="text-[24px] text-white tracking-[0.24px]" style={{ fontFamily: "'atyp-bl-variable', 'Atyp BL', sans-serif", fontWeight: 700 }}>
+                Talk to Partnerships
+              </h2>
+              <p className="text-[13px] text-[#9c9fae] mt-[4px] tracking-[0.13px]" style={fontRegularPartnership}>
+                Tell us about your project and how we can collaborate.
+              </p>
+            </div>
+            <button
+              onClick={onClose}
+              className="shrink-0 ml-[16px] -mt-[2px] -mr-[4px] text-[#9c9fae] hover:text-white hover:bg-white/[0.08] transition-all bg-transparent border-0 cursor-pointer rounded-full p-[8px]"
+              aria-label="Close"
+            >
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Divider */}
+          <div className="mx-[28px] h-px sticky top-[88px] bg-[rgba(255,255,255,0.07)] z-10" />
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="px-[28px] py-[20px]">
+            {/* Name Row */}
+            <div className="flex gap-[16px] mb-[16px]">
+              <div className="flex-1">
+                <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
+                  First Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  placeholder="John"
+                  className={inputClassName('firstName')}
+                  style={fontRegularPartnership}
+                />
+                {errors.firstName && (
+                  <p className="text-red-500 text-[12px] mt-[6px]" style={fontRegularPartnership}>{errors.firstName}</p>
+                )}
+              </div>
+              <div className="flex-1">
+                <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
+                  Last Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  placeholder="Doe"
+                  className={inputClassName('lastName')}
+                  style={fontRegularPartnership}
+                />
+                {errors.lastName && (
+                  <p className="text-red-500 text-[12px] mt-[6px]" style={fontRegularPartnership}>{errors.lastName}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Email */}
+            <div className="mb-[16px]">
+              <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
+                Email <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="john@example.com"
+                className={inputClassName('email')}
+                style={fontRegularPartnership}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-[12px] mt-[6px]" style={fontRegularPartnership}>{errors.email}</p>
+              )}
+            </div>
+
+            {/* Telegram ID */}
+            <div className="mb-[16px]">
+              <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
+                Telegram ID
+              </label>
+              <input
+                type="text"
+                name="telegramId"
+                value={formData.telegramId}
+                onChange={handleInputChange}
+                placeholder="@username"
+                className={inputClassName('telegramId')}
+                style={fontRegularPartnership}
+              />
+            </div>
+
+            {/* Company / Project */}
+            <div className="mb-[16px]">
+              <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
+                Company / Project
+              </label>
+              <input
+                type="text"
+                name="companyProject"
+                value={formData.companyProject}
+                onChange={handleInputChange}
+                placeholder="Your company or project name"
+                className={inputClassName('companyProject')}
+                style={fontRegularPartnership}
+              />
+            </div>
+
+            {/* Message */}
+            <div className="mb-[24px]">
+              <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
+                Message <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                placeholder="Tell us about your project and how you'd like to partner with Orderly..."
+                rows={4}
+                className={`${inputClassName('message')} resize-none`}
+                style={fontRegularPartnership}
+              />
+              {errors.message && (
+                <p className="text-red-500 text-[12px] mt-[6px]" style={fontRegularPartnership}>{errors.message}</p>
+              )}
+            </div>
+
+            {/* Status Messages */}
+            {submitStatus === 'success' && (
+              <div className="mb-[20px] p-[16px] rounded-[12px] bg-green-500/10 border border-green-500/20">
+                <p className="text-green-400 text-[14px]" style={fontMediumPartnership}>
+                  ✓ {statusMessage}
+                </p>
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="mb-[20px] p-[16px] rounded-[12px] bg-red-500/10 border border-red-500/20">
+                <p className="text-red-400 text-[14px]" style={fontMediumPartnership}>
+                  ✗ {statusMessage}
+                </p>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-[16px] rounded-[24px] bg-[#6700ce] text-white text-[16px] font-semibold tracking-[0.16px] transition-all duration-200 hover:bg-[#7a00f0] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#6700ce]"
+              style={{ fontFamily: "'atyp-bl-variable', 'Atyp BL', sans-serif", fontWeight: 700 }}
+            >
+              {isSubmitting ? (
+                <span className="flex items-center justify-center gap-[10px]">
+                  <svg className="animate-spin h-[18px] w-[18px] text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Sending...
+                </span>
+              ) : (
+                'Submit Inquiry'
+              )}
+            </button>
+
+            {/* Privacy note */}
+            <p className="text-center text-[12px] text-[#5a5d6e] mt-[16px] tracking-[0.12px]" style={fontRegularPartnership}>
+              By submitting, you agree to our privacy policy.
+            </p>
+          </form>
+        </div>
       </motion.div>
     </motion.div>,
     document.body
@@ -388,7 +701,7 @@ function MenuCell2() {
           onLeave={handleLeave}
           items={[
             { label: "Live DEXs", href: "https://dex.orderly.network/board/" },
-            { label: "Dashboard", href: "https://orderly-dashboard.orderly.network/" },
+            { label: "Dashboard", href: "https://dashboard.orderly.network" },
             { label: "Explorer", href: "https://explorer.orderly.network/" },
             { label: "Campaigns", href: "https://app.orderly.network/campaigns" },
             { label: "Vaults", href: "http://app.orderly.network/vaults" },
@@ -477,7 +790,7 @@ function HeroTextContainer() {
   );
 }
 
-function HeroButtonsContainer({ onOpenModal }: { onOpenModal: () => void }) {
+function HeroButtonsContainer({ onOpenModal, onOpenPartnershipModal }: { onOpenModal: () => void; onOpenPartnershipModal: () => void }) {
   return (
     <div className="content-stretch flex gap-[16px] items-start relative shrink-0" data-name="Hero Buttons Container">
       <a
@@ -491,25 +804,25 @@ function HeroButtonsContainer({ onOpenModal }: { onOpenModal: () => void }) {
           Start Building
         </p>
       </a>
-      <a
-        href={`mailto:midoji@orderly.network?subject=${encodeURIComponent("Partnership Inquiry from Orderly Website")}&body=${encodeURIComponent("First Name:\nLast Name:\nEmail:\nTelegram ID:\nCompany / Project:\nMessage:\n")}`}
-        className="content-stretch flex h-[52px] items-center justify-center pl-[24px] pr-[20px] py-[12px] relative rounded-[24px] shrink-0 hover:bg-white/10 transition-colors bg-transparent border-0 cursor-pointer no-underline"
+      <button
+        onClick={onOpenPartnershipModal}
+        className="content-stretch flex h-[52px] items-center justify-center pl-[24px] pr-[20px] py-[12px] relative rounded-[24px] shrink-0 hover:bg-white/10 transition-colors bg-transparent border-0 cursor-pointer"
         data-name="Trade on Orderly"
       >
         <div aria-hidden="true" className="absolute border border-solid border-white inset-0 pointer-events-none rounded-[24px]" />
         <p className="font-['Atyp_BL:Bold',sans-serif] leading-none not-italic relative shrink-0 text-[16px] text-white tracking-[0.16px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06', 'liga' 0" }}>
           Talk to Partnerships
         </p>
-      </a>
+      </button>
     </div>
   );
 }
 
-function Frame({ onOpenModal }: { onOpenModal: () => void }) {
+function Frame({ onOpenModal, onOpenPartnershipModal }: { onOpenModal: () => void; onOpenPartnershipModal: () => void }) {
   return (
     <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[40px] items-center justify-center left-[calc(50%-0.1px)] pl-[100px] pr-[80px] top-[201.78px] w-[1440px]" data-name="Frame">
       <HeroTextContainer />
-      <HeroButtonsContainer onOpenModal={onOpenModal} />
+      <HeroButtonsContainer onOpenModal={onOpenModal} onOpenPartnershipModal={onOpenPartnershipModal} />
     </div>
   );
 }
@@ -526,7 +839,7 @@ function FeatureTag() {
           </g>
         </svg>
       </div>
-      <p className="capitalize font-['Atyp_BL:Semibold',sans-serif] leading-none not-italic relative shrink-0 text-[30px] text-white" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
+      <p className="capitalize font-['Atyp_BL:Semibold',sans-serif] leading-none not-italic relative shrink-0 text-[24px] text-white" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
         Deep Liquidity
       </p>
     </div>
@@ -542,7 +855,7 @@ function FeatureTag1() {
           <circle cx="7.20898" cy="7.20898" fill="var(--fill-0, #44DED3)" id="Ellipse 6009" r="7.20898" />
         </svg>
       </div>
-      <p className="font-['Atyp_BL:Semibold',sans-serif] leading-none not-italic relative shrink-0 text-[30px] text-white" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
+      <p className="font-['Atyp_BL:Semibold',sans-serif] leading-none not-italic relative shrink-0 text-[24px] text-white" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
         Customizable
       </p>
     </div>
@@ -558,7 +871,7 @@ function FeatureTag2() {
           <circle cx="7.20898" cy="7.20898" fill="var(--fill-0, #44DED3)" id="Ellipse 6009" r="7.20898" />
         </svg>
       </div>
-      <p className="capitalize font-['Atyp_BL:Semibold',sans-serif] leading-none not-italic relative shrink-0 text-[30px] text-white" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
+      <p className="capitalize font-['Atyp_BL:Semibold',sans-serif] leading-none not-italic relative shrink-0 text-[24px] text-white" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
         No-code
       </p>
     </div>
@@ -1082,7 +1395,7 @@ function TrustedContent() {
 
 function TrustedSection() {
   return (
-    <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[80px] items-start left-[calc(50%-0.11px)] top-[4853px] w-[1302px]" data-name="Trusted Section">
+    <div className="content-stretch flex flex-col gap-[80px] items-start mx-auto w-[1302px]" data-name="Trusted Section">
       <TrustedHeader />
       <TrustedContent />
     </div>
@@ -1136,35 +1449,35 @@ function Frame4() {
   );
 }
 
-function Frame5({ onOpenModal }: { onOpenModal: () => void }) {
+function Frame5({ onOpenPartnershipModal }: { onOpenPartnershipModal: () => void }) {
   return (
-    <a
-      href={`mailto:midoji@orderly.network?subject=${encodeURIComponent("Partnership Inquiry from Orderly Website")}&body=${encodeURIComponent("First Name:\nLast Name:\nEmail:\nTelegram ID:\nCompany / Project:\nMessage:\n")}`}
-      className="content-stretch flex h-[52px] items-center justify-center pl-[24px] pr-[20px] py-[12px] relative rounded-[24px] shrink-0 hover:bg-white/10 transition-colors bg-transparent border-0 cursor-pointer no-underline"
+    <button
+      onClick={onOpenPartnershipModal}
+      className="content-stretch flex h-[52px] items-center justify-center pl-[24px] pr-[20px] py-[12px] relative rounded-[24px] shrink-0 hover:bg-white/10 transition-colors bg-transparent border-0 cursor-pointer"
       data-name="Trade on Orderly"
     >
       <div aria-hidden="true" className="absolute border border-solid border-white inset-0 pointer-events-none rounded-[24px]" />
       <p className="font-['Atyp_BL:Bold',sans-serif] leading-none not-italic relative shrink-0 text-[16px] text-white tracking-[0.16px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06', 'liga' 0" }}>
         Talk to Partnerships
       </p>
-    </a>
+    </button>
   );
 }
 
-function Frame6({ onOpenModal }: { onOpenModal: () => void }) {
+function Frame6({ onOpenPartnershipModal }: { onOpenPartnershipModal: () => void }) {
   return (
     <div className="content-stretch flex gap-[16px] items-start relative shrink-0">
       <Frame4 />
-      <Frame5 onOpenModal={onOpenModal} />
+      <Frame5 onOpenPartnershipModal={onOpenPartnershipModal} />
     </div>
   );
 }
 
-function Frame1({ onOpenModal }: { onOpenModal: () => void }) {
+function Frame1({ onOpenPartnershipModal }: { onOpenPartnershipModal: () => void }) {
   return (
-    <div className="-translate-x-1/2 absolute content-stretch flex flex-col gap-[60px] items-center left-[calc(50%-0.11px)] px-[80px] top-[5510.5px] w-[1440px]" data-name="Frame">
+    <div className="content-stretch flex flex-col gap-[60px] items-center mx-auto px-[80px] w-[1440px]" data-name="Frame">
       <HeroTextContainer1 />
-      <Frame6 onOpenModal={onOpenModal} />
+      <Frame6 onOpenPartnershipModal={onOpenPartnershipModal} />
     </div>
   );
 }
@@ -1523,7 +1836,7 @@ function TeamLinkContainer() {
 function CareersLinkContainer() {
   return (
     <div className="content-stretch flex items-start relative shrink-0" data-name="Careers Link Container">
-      <p className="capitalize font-['Atyp_BL:Medium',sans-serif] leading-[0.753] not-italic relative shrink-0 text-[#9c75ff] text-[14px] tracking-[0.14px]">Analytics</p>
+      <p className="capitalize font-['Atyp_BL:Medium',sans-serif] leading-[0.753] not-italic relative shrink-0 text-[#9c75ff] text-[14px] tracking-[0.14px]">Dune Dashboard</p>
     </div>
   );
 }
@@ -1697,7 +2010,7 @@ function Frame10() {
 
 function Footer() {
   return (
-    <div className="-translate-x-1/2 absolute bg-[#6700ce] content-stretch flex flex-col h-[486.978px] items-center left-[calc(50%-0.11px)] rounded-[30px] top-[6344.98px] w-[1302px]" data-name="Footer">
+    <div className="bg-[#6700ce] content-stretch flex flex-col h-[486.978px] items-center mx-auto rounded-[30px] w-[1302px]" data-name="Footer">
       <FooterLinksContainer />
       <Frame10 />
     </div>
@@ -1706,7 +2019,7 @@ function Footer() {
 
 function FooterSection() {
   return (
-    <div className="-translate-x-1/2 absolute contents left-[calc(50%-0.11px)] top-[6344.98px]" data-name="Footer Section">
+    <div className="contents" data-name="Footer Section">
       <Footer />
     </div>
   );
@@ -1753,7 +2066,7 @@ function Group9() {
 
 function Frame12() {
   return (
-    <div className="absolute flex flex-row items-center justify-between h-[235.098px] left-[68.89px] top-[6071px] w-[1302px]">
+    <div className="flex flex-row items-center justify-between h-[235.098px] ml-[68.89px] w-[1302px]">
       {/* Left: text, transparent background */}
       <div className="flex flex-col justify-center w-[50%]">
         <div className="font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] not-italic text-[30px] text-white tracking-[0.3px]" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
@@ -1905,7 +2218,7 @@ function Frame16() {
 
 function StatItem({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="content-stretch flex flex-col gap-[36.381px] items-center justify-center relative shrink-0 text-white">
+    <div className="content-stretch flex flex-col gap-[12px] items-center justify-center relative shrink-0 text-white">
       <p className="font-['Atyp_BL:Medium',sans-serif] leading-[1.3] not-italic relative shrink-0 text-[24px] text-center tracking-[-0.3125px]" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
         {label}
       </p>
@@ -1917,49 +2230,41 @@ function StatItem({ label, children }: { label: string; children: React.ReactNod
 }
 
 function StatsDivider() {
-  return (
-    <div className="flex h-[160.093px] items-center justify-center relative shrink-0 w-0" style={{ "--transform-inner-width": "1200", "--transform-inner-height": "19" } as React.CSSProperties}>
-      <div className="flex-none rotate-90">
-        <div className="h-0 relative w-[160.093px]">
-          <div className="absolute inset-[-2px_0_0_0]">
-            <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 160.093 2">
-              <line stroke="#9C75FF" strokeWidth="2" x2="160.093" y1="1" y2="1" />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <div className="self-stretch w-[2px] bg-[#9C75FF] shrink-0" />;
 }
 
-const formatInteger = (v: number) => `${Math.round(v)}+`;
+const formatInteger = (v: number) => `${Math.round(v)}`;
 
 function StatsContent() {
   const stats = useOrderlyStats();
   const formatTvl = useCallback((v: number) => formatLargeNumber(v), []);
   const formatVolume = useCallback((v: number) => formatLargeNumber(v), []);
+  const formatTraders = useCallback((v: number) => formatCount(v), []);
 
   return (
-    <div className="content-stretch flex items-center justify-between px-[36px] relative shrink-0 w-[1302px]" data-name="Stats Content">
-      <div className="content-stretch flex flex-col h-[126.227px] items-center justify-center relative shrink-0 w-[330px]" data-name="Open interest">
+    <div className="flex items-stretch px-[36px] w-[1302px]" data-name="Stats Content">
+      <div className="flex flex-1 flex-col items-center justify-center gap-[40px]">
+        <StatItem label="Total Trading Volume">
+          <AnimatedNumber value={stats.totalVolume} format={formatVolume} />
+        </StatItem>
         <StatItem label="TVL">
           <AnimatedNumber value={stats.tvl} format={formatTvl} />
         </StatItem>
       </div>
       <StatsDivider />
-      <div className="content-stretch flex flex-col gap-[36.381px] h-[119.493px] items-center justify-center relative shrink-0 text-white w-[330px]" data-name="Total trading volume">
-        <StatItem label="24h trading volume">
+      <div className="flex flex-1 flex-col items-center justify-center gap-[40px]">
+        <StatItem label="24h Trading Volume">
           <AnimatedNumber value={stats.tradingVolume} format={formatVolume} />
         </StatItem>
-      </div>
-      <StatsDivider />
-      <div className="content-stretch flex flex-[1_0_0] flex-col h-[126.227px] items-center justify-center min-h-px min-w-px relative" data-name="Total traders">
-        <StatItem label="Live builders">
-          <AnimatedNumber value={stats.liveBuilders} format={formatInteger} />
+        <StatItem label="Open Interest">
+          <AnimatedNumber value={stats.openInterest} format={formatVolume} />
         </StatItem>
       </div>
       <StatsDivider />
-      <div className="content-stretch flex flex-[1_0_0] flex-col h-[126.227px] items-center justify-center min-h-px min-w-px relative" data-name="Total traders">
+      <div className="flex flex-1 flex-col items-center justify-center gap-[40px]">
+        <StatItem label="Live Builders">
+          <AnimatedNumber value={stats.liveBuilders} format={formatInteger} />
+        </StatItem>
         <StatItem label="Chains">
           <AnimatedNumber value={stats.chains} format={formatInteger} />
         </StatItem>
@@ -1970,7 +2275,7 @@ function StatsContent() {
 
 function StatsSection() {
   return (
-    <div className="-translate-x-1/2 absolute bg-[#6700ce] content-stretch flex flex-col h-[247px] items-start left-[calc(50%-0.11px)] py-[43px] rounded-[30px] top-[1275.96px] w-[1302px]" data-name="Stats Section">
+    <div className="-translate-x-1/2 absolute bg-[#6700ce] content-stretch flex flex-col h-[326px] items-center justify-center left-[calc(50%-0.11px)] py-[43px] rounded-[30px] top-[1275.96px] w-[1302px]" data-name="Stats Section">
       <StatsContent />
     </div>
   );
@@ -2117,7 +2422,7 @@ function QuickStartContent() {
 
 function QuickStartSection() {
   return (
-    <div className="absolute content-stretch flex flex-col gap-[48px] items-center left-[68.89px] top-[3876px] w-[1302px]" data-name="Quick Start Section">
+    <div className="content-stretch flex flex-col gap-[48px] items-center ml-[68.89px] w-[1302px]" data-name="Quick Start Section">
       <QuickStartHeader />
       <div className="flex gap-[22px] items-stretch w-full">
         <AIAgentCard />
@@ -2672,7 +2977,9 @@ function BuildButtonContainer() {
 function Container6() {
   return (
     <div className="bg-[#3f0086] content-stretch flex flex-col gap-[217px] h-[483px] items-start overflow-clip p-[35px] relative rounded-[30px] shrink-0 w-[410px]" data-name="Container">
-      <p data-name="Launch a branded Perp DEX" className="font-['Atyp_BL:Semibold',sans-serif] h-[173px] leading-[1.2] not-italic relative shrink-0 text-[45px] text-white w-full whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>Launch a branded Perp DEX</p>
+      <p data-name="Launch a branded Perp DEX" className="font-['Atyp_BL:Semibold',sans-serif] h-[173px] leading-[1.2] not-italic relative shrink-0 text-[45px] text-white w-full whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
+        Launch a branded Perp DEX
+      </p>
       <BuildButtonContainer />
     </div>
   );
@@ -2703,6 +3010,41 @@ function BuildButtonContainer1() {
   );
 }
 
+function BuildButtonContainerVault() {
+  return (
+    <a
+      href="http://app.orderly.network/vaults"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="content-stretch flex gap-[7px] items-end justify-end relative shrink-0 w-full no-underline hover:opacity-80 transition-opacity"
+      data-name="Build Button Container"
+    >
+      <p
+        className="font-['Atyp_BL:Bold',sans-serif] leading-none not-italic relative shrink-0 text-[20px] text-white tracking-[0.2px]"
+        style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06', 'liga' 0" }}
+      >
+        Vaults
+      </p>
+      <div className="flex items-center justify-center relative shrink-0">
+        <div className="-scale-y-100 flex-none rotate-180">
+          <div className="overflow-clip relative size-[16px]" data-name="Build Button Icon">
+            <div className="absolute inset-[10.42%]" data-name="Union">
+              <svg
+                className="absolute block size-full"
+                fill="none"
+                preserveAspectRatio="none"
+                viewBox="0 0 12.6133 12.6133"
+              >
+                <path d={svgPaths.p35ba4800} fill="var(--fill-0, white)" id="Union" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  );
+}
+
 function Container7() {
   return (
     <div className="bg-[#6700ce] content-stretch flex flex-col gap-[217px] h-[483px] items-start overflow-clip p-[35px] relative rounded-[30px] shrink-0 w-[410px]" data-name="Container">
@@ -2710,6 +3052,17 @@ function Container7() {
         Add perps to your dApp or wallet
       </p>
       <BuildButtonContainer1 />
+    </div>
+  );
+}
+
+function ContainerVaults() {
+  return (
+    <div className="bg-[#3f0086] content-stretch flex flex-col gap-[217px] h-[483px] items-start overflow-clip p-[35px] relative rounded-[30px] shrink-0 w-[410px]" data-name="Container">
+      <p className="font-['Atyp_BL:Semibold',sans-serif] h-[173px] leading-[1.2] not-italic relative shrink-0 text-[45px] text-white w-full whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
+        Earn with Vaults
+      </p>
+      <BuildButtonContainerVault />
     </div>
   );
 }
@@ -2743,7 +3096,7 @@ function BuildButtonContainer2() {
 
 function Container8() {
   return (
-    <div className="bg-[#3f0086] content-stretch flex flex-col gap-[217px] h-[483px] items-start overflow-clip p-[35px] relative rounded-[30px] shrink-0 w-[410px]" data-name="Container">
+    <div className="bg-[#6700ce] content-stretch flex flex-col gap-[217px] h-[483px] items-start overflow-clip p-[35px] relative rounded-[30px] shrink-0 w-[410px]" data-name="Container">
       <p className="font-['Atyp_BL:Semibold',sans-serif] h-[173px] leading-[1.2] not-italic relative shrink-0 text-[45px] text-white w-full whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
         List your token
       </p>
@@ -2781,7 +3134,7 @@ function BuildButtonContainer3() {
 
 function Container9() {
   return (
-    <div className="bg-[#6700ce] content-stretch flex flex-col gap-[217px] h-[483px] items-start overflow-clip p-[35px] relative rounded-[30px] shrink-0 w-[410px]" data-name="Container">
+    <div className="bg-[#3f0086] content-stretch flex flex-col gap-[217px] h-[483px] items-start overflow-clip p-[35px] relative rounded-[30px] shrink-0 w-[410px]" data-name="Container">
       <p className="font-['Atyp_BL:Semibold',sans-serif] h-[173px] leading-[1.2] not-italic relative shrink-0 text-[45px] text-white w-full whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss02', 'ss03', 'ss05', 'ss06'" }}>
         Building trading tools
       </p>
@@ -2801,6 +3154,7 @@ function BuildContentList({ scrollRef, onScroll }: { scrollRef: React.RefObject<
     >
       <Container6 />
       <Container7 />
+      <ContainerVaults />
       <Container8 />
       <Container9 />
     </div>
@@ -2827,7 +3181,7 @@ function BuildTitleContainer2() {
   return (
     <div className="absolute contents left-[69.15px] top-[3155.78px]" data-name="Build Title Container">
       <p className="absolute font-['Atyp_BL:Bold',sans-serif] leading-[1.1] left-[69.15px] not-italic text-[56px] text-white top-[3155.78px] w-[876px] whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-        What you can build
+        On Orderly
       </p>
     </div>
   );
@@ -3062,6 +3416,7 @@ function HeroSection() {
 
 export default function Frame7() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [partnershipModalOpen, setPartnershipModalOpen] = useState(false);
 
   // Animation configuration for sequential section reveals
   const sectionVariants = {
@@ -3118,7 +3473,7 @@ export default function Frame7() {
       </motion.div>
 
       <motion.div initial="hidden" animate="visible" variants={sectionVariants} transition={transition}>
-        <Frame onOpenModal={() => setModalOpen(true)} />
+        <Frame onOpenModal={() => setModalOpen(true)} onOpenPartnershipModal={() => setPartnershipModalOpen(true)} />
       </motion.div>
 
       {/* Hero Section */}
@@ -3173,52 +3528,57 @@ export default function Frame7() {
         <WhySection />
       </motion.div>
 
-      {/* Quick Start Section */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={sectionVariants}
-        transition={{ ...transition, delay: 0.6 }}
-      >
-        <QuickStartSection />
-      </motion.div>
+      {/* QuickStart → Footer: unified flow layout for consistent section spacing */}
+      <div className="absolute left-0 top-[3876px] flex flex-col gap-[120px] w-full">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={sectionVariants}
+          transition={{ ...transition, delay: 0.6 }}
+        >
+          <QuickStartSection />
+        </motion.div>
 
-      {/* Trusted Section */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={sectionVariants}
-        transition={{ ...transition, delay: 0.7 }}
-      >
-        <TrustedSection />
-      </motion.div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={sectionVariants}
+          transition={{ ...transition, delay: 0.7 }}
+        >
+          <TrustedSection />
+        </motion.div>
 
-      {/* Frame components */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={sectionVariants}
-        transition={{ ...transition, delay: 0.8 }}
-      >
-        <Frame1 onOpenModal={() => setModalOpen(true)} />
-        <Frame12 />
-      </motion.div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={sectionVariants}
+          transition={{ ...transition, delay: 0.8 }}
+        >
+          <div className="flex flex-col gap-[80px]">
+            <Frame1 onOpenPartnershipModal={() => setPartnershipModalOpen(true)} />
+            <Frame12 />
+          </div>
+        </motion.div>
 
-      {/* Footer Section */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={sectionVariants}
-        transition={{ ...transition, delay: 0.9 }}
-      >
-        <FooterSection />
-        <a href="https://orderly.network/docs/introduction/terms-of-service" target="_blank" rel="noopener noreferrer" className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1168px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity">Terms of Service</a>
-        <a href="https://orderly.network/docs/introduction/privacy-policy" target="_blank" rel="noopener noreferrer" className="absolute font-['Atyp_BL:Regular',sans-serif] leading-[1.2] left-[1288px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity">Privacy Policy</a>
-        <p className="absolute font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] left-[68.89px] not-italic text-[12px] text-white top-[6854.98px] tracking-[0.12px] w-[362px] whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>
-          © 2026 Orderly Network
-        </p>
-      </motion.div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={sectionVariants}
+          transition={{ ...transition, delay: 0.9 }}
+        >
+          <FooterSection />
+          <div className="flex items-center justify-between px-[68.89px] mt-[40px]">
+            <p className="font-['Atyp_BL:Semibold',sans-serif] leading-[1.2] not-italic text-[12px] text-white tracking-[0.12px] whitespace-pre-wrap" style={{ fontFeatureSettings: "'ss03', 'ss02', 'ss05', 'ss06'" }}>© 2026 Orderly Network</p>
+            <div className="flex gap-[40px]">
+              <a href="https://orderly.network/docs/introduction/terms-of-service" target="_blank" rel="noopener noreferrer" className="font-['Atyp_BL:Regular',sans-serif] leading-[1.2] not-italic text-[12px] text-white tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity">Terms of Service</a>
+              <a href="https://orderly.network/docs/introduction/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-['Atyp_BL:Regular',sans-serif] leading-[1.2] not-italic text-[12px] text-white tracking-[0.12px] whitespace-nowrap no-underline hover:opacity-80 transition-opacity">Privacy Policy</a>
+            </div>
+          </div>
+        </motion.div>
+      </div>
 
+      {/* Partnership Form Modal */}
+      {partnershipModalOpen && <PartnershipFormModal onClose={() => setPartnershipModalOpen(false)} />}
     </div>
   );
 }

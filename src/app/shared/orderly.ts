@@ -63,7 +63,7 @@ export const FOOTER_NAV: Record<string, { label: string; href: string; external:
   ],
   Traders: [
     { label: "Live DEXs", href: "https://dex.orderly.network/board/",                                           external: true },
-    { label: "Dashboard", href: "https://orderly-dashboard.orderly.network/",                                   external: true },
+    { label: "Dashboard", href: "https://dashboard.orderly.network",                                            external: true },
     { label: "Explorer",  href: "https://explorer.orderly.network/",                                            external: true },
     { label: "Campaigns", href: "https://app.orderly.network/campaigns",                                        external: true },
     { label: "Vaults",    href: "http://app.orderly.network/vaults",                                            external: true },
