@@ -4,8 +4,10 @@ interface PartnershipRequest {
   firstName: string;
   lastName: string;
   email: string;
-  telegramId?: string;
-  companyProject?: string;
+  telegramId: string;
+  companyProject: string;
+  role: string;
+  buildDex: string;
   message: string;
 }
 
@@ -27,6 +29,18 @@ function validateRequiredFields(body: Partial<PartnershipRequest>): string[] {
       errors.push('Please provide a valid email address');
     }
   }
+  if (!body.telegramId?.trim()) {
+    errors.push('Telegram username is required');
+  }
+  if (!body.companyProject?.trim()) {
+    errors.push('Company / Project is required');
+  }
+  if (!body.role?.trim()) {
+    errors.push('Role is required');
+  }
+  if (!body.buildDex?.trim()) {
+    errors.push('Please answer if you are looking to build a DEX');
+  }
   if (!body.message?.trim()) {
     errors.push('Message is required');
   }
@@ -46,23 +60,14 @@ function formatTelegramMessage(data: PartnershipRequest): string {
     `*First Name:* ${escapeMarkdown(data.firstName)}`,
     `*Last Name:* ${escapeMarkdown(data.lastName)}`,
     `*Email:* ${escapeMarkdown(data.email)}`,
+    `*Telegram username:* ${escapeMarkdown(data.telegramId)}`,
+    `*Company / Project:* ${escapeMarkdown(data.companyProject)}`,
+    `*Role:* ${escapeMarkdown(data.role)}`,
+    `*Looking to build a DEX:* ${escapeMarkdown(data.buildDex)}`,
+    '',
+    '*Message:*',
+    escapeMarkdown(data.message),
   ];
-
-  if (data.telegramId?.trim()) {
-    lines.push(`*Telegram ID:* ${escapeMarkdown(data.telegramId)}`);
-  } else {
-    lines.push('*Telegram ID:* Not provided');
-  }
-
-  if (data.companyProject?.trim()) {
-    lines.push(`*Company / Project:* ${escapeMarkdown(data.companyProject)}`);
-  } else {
-    lines.push('*Company / Project:* Not provided');
-  }
-
-  lines.push('');
-  lines.push('*Message:*');
-  lines.push(escapeMarkdown(data.message));
 
   return lines.join('\n');
 }

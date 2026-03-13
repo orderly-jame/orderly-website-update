@@ -185,6 +185,8 @@ export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
     email: '',
     telegramId: '',
     companyProject: '',
+    role: '',
+    buildDex: '',
     message: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -208,6 +210,18 @@ export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
       if (!emailRegex.test(formData.email)) {
         newErrors.email = 'Please enter a valid email address';
       }
+    }
+    if (!formData.telegramId.trim()) {
+      newErrors.telegramId = 'Telegram username is required';
+    }
+    if (!formData.companyProject.trim()) {
+      newErrors.companyProject = 'Company / Project is required';
+    }
+    if (!formData.role.trim()) {
+      newErrors.role = 'Role is required';
+    }
+    if (!formData.buildDex.trim()) {
+      newErrors.buildDex = 'Please select an option';
     }
     if (!formData.message.trim()) {
       newErrors.message = 'Message is required';
@@ -237,6 +251,8 @@ export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
           email: formData.email,
           telegramId: formData.telegramId,
           companyProject: formData.companyProject,
+          role: formData.role,
+          buildDex: formData.buildDex,
           message: formData.message,
         }),
       });
@@ -253,6 +269,8 @@ export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
           email: '',
           telegramId: '',
           companyProject: '',
+          role: '',
+          buildDex: '',
           message: '',
         });
       } else {
@@ -273,6 +291,13 @@ export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const handleRadioChange = (value: string) => {
+    setFormData(prev => ({ ...prev, buildDex: value }));
+    if (errors.buildDex) {
+      setErrors(prev => ({ ...prev, buildDex: '' }));
     }
   };
 
@@ -385,10 +410,10 @@ export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
               )}
             </div>
 
-            {/* Telegram ID */}
+            {/* Telegram username */}
             <div className="mb-[16px]">
               <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
-                Telegram ID
+                Telegram username <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -399,12 +424,15 @@ export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
                 className={inputClassName('telegramId')}
                 style={fontRegularPartnership}
               />
+              {errors.telegramId && (
+                <p className="text-red-500 text-[12px] mt-[6px]" style={fontRegularPartnership}>{errors.telegramId}</p>
+              )}
             </div>
 
             {/* Company / Project */}
             <div className="mb-[16px]">
               <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
-                Company / Project
+                Company / Project <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -415,6 +443,73 @@ export function PartnershipFormModal({ onClose }: { onClose: () => void }) {
                 className={inputClassName('companyProject')}
                 style={fontRegularPartnership}
               />
+              {errors.companyProject && (
+                <p className="text-red-500 text-[12px] mt-[6px]" style={fontRegularPartnership}>{errors.companyProject}</p>
+              )}
+            </div>
+
+            {/* Role */}
+            <div className="mb-[16px]">
+              <label className="block text-[13px] text-[#9c9fae] mb-[8px] tracking-[0.13px]" style={fontMediumPartnership}>
+                Role <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="role"
+                value={formData.role}
+                onChange={handleInputChange}
+                placeholder="Your role (e.g., Founder, BD Manager)"
+                className={inputClassName('role')}
+                style={fontRegularPartnership}
+              />
+              {errors.role && (
+                <p className="text-red-500 text-[12px] mt-[6px]" style={fontRegularPartnership}>{errors.role}</p>
+              )}
+            </div>
+
+            {/* Are you looking to build a DEX? */}
+            <div className="mb-[24px]">
+              <label className="block text-[13px] text-[#9c9fae] mb-[12px] tracking-[0.13px]" style={fontMediumPartnership}>
+                Are you looking to build a DEX? <span className="text-red-500">*</span>
+              </label>
+              <div className="flex flex-col gap-[10px]">
+                {['Yes', 'No', 'Exploring options'].map((option) => (
+                  <label
+                    key={option}
+                    className={`flex items-center gap-[10px] px-[16px] py-[12px] rounded-[12px] border cursor-pointer transition-all duration-200 ${
+                      formData.buildDex === option
+                        ? 'border-[#9c75ff] bg-[#9c75ff]/10'
+                        : 'border-white/10 hover:border-white/20'
+                    } ${errors.buildDex ? 'border-red-500' : ''}`}
+                  >
+                    <input
+                      type="radio"
+                      name="buildDex"
+                      value={option}
+                      checked={formData.buildDex === option}
+                      onChange={() => handleRadioChange(option)}
+                      className="hidden"
+                    />
+                    <div
+                      className={`w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                        formData.buildDex === option
+                          ? 'border-[#9c75ff]'
+                          : 'border-white/40'
+                      }`}
+                    >
+                      {formData.buildDex === option && (
+                        <div className="w-[8px] h-[8px] rounded-full bg-[#9c75ff]" />
+                      )}
+                    </div>
+                    <span className="text-white text-[15px]" style={fontRegularPartnership}>
+                      {option}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              {errors.buildDex && (
+                <p className="text-red-500 text-[12px] mt-[6px]" style={fontRegularPartnership}>{errors.buildDex}</p>
+              )}
             </div>
 
             {/* Message */}
